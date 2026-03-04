@@ -1,0 +1,19 @@
+{
+  "hero": {
+    "mainBanner": "/images/hero/winter-sale-banner.jpg",
+    "secondaryBanner": "/images/hero/jackets-collection.jpg"
+  },
+  "categories": {
+    "mensTshirt": "/images/categories/mens-tshirt.jpg",
+    "womensTshirt": "/images/categories/womens-tshirt.jpg",
+    "shoes": "/images/categories/shoes.jpg",
+    "cap": "/images/categories/cap.jpg",
+    "jacketsHoodie": "/images/categories/jackets-hoodie.jpg",
+    "newArrivals": "/images/categories/new-arrivals.jpg",
+    "bestSellers": "/images/categories/best-sellers.jpg"
+  },
+  "placeholders": {
+    "product": "/images/placeholder-product.jpg",
+    "category": "/images/placeholder-category.jpg"
+  }
+}
