@@ -1,0 +1,60 @@
+{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Textile",
+      "slug": "textile",
+      "image": "/Photos Industry/31.jpeg",
+      "link": "/products?category=textile"
+    },
+    {
+      "id": 2,
+      "name": "Textile Jackets",
+      "slug": "textile-jackets",
+      "image": "/Photos Industry/26.jpeg",
+      "link": "/products?category=textile-jackets"
+    },
+    {
+      "id": 3,
+      "name": "Leather Jackets",
+      "slug": "leather-jackets",
+      "image": "/Photos Industry/30.jpeg",
+      "link": "/products?category=leather-jackets"
+    },
+    {
+      "id": 4,
+      "name": "Gloves Collection",
+      "slug": "gloves-collection",
+      "image": "/Photos Industry/32.jpeg",
+      "link": "/products?category=gloves-collection"
+    },
+    {
+      "id": 5,
+      "name": "Accessories",
+      "slug": "accessories",
+      "image": "/Photos Industry/29.jpeg",
+      "link": "/products?category=accessories"
+    },
+    {
+      "id": 6,
+      "name": "Pants",
+      "slug": "pants",
+      "image": "/Photos Industry/28.jpeg",
+      "link": "/products?category=pants"
+    },
+    {
+      "id": 7,
+      "name": "Swimming Diving Suits",
+      "slug": "swimming-diving-suits",
+      "image": "/Photos Industry/27.jpeg",
+      "link": "/products?category=swimming-diving-suits"
+    },
+    {
+      "id": 8,
+      "name": "Uniforms",
+      "slug": "uniforms",
+      "image": "/Photos Industry/25.jpeg",
+      "link": "/products?category=uniforms"
+    }
+  ]
+}
