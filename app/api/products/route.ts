@@ -6,21 +6,53 @@ export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search") || "";
+    const category = searchParams.get("category");
+    const subCategory = searchParams.get("subCategory");
+    const itemType = searchParams.get("itemType");
     const skip = parseInt(searchParams.get("skip") || "0");
     const limit = parseInt(searchParams.get("limit") || "20");
     const full = searchParams.get("full") === "true";
 
-    const where = search 
-      ? {
+    // Build filters using AND array to avoid OR clause conflicts
+    const andConditions: any[] = [];
+
+    if (search) {
+      andConditions.push({
+        OR: [
+          { name: { contains: search, mode: 'insensitive' } },
+          { category: { contains: search, mode: 'insensitive' } },
+          { subCategory: { contains: search, mode: 'insensitive' } },
+        ]
+      });
+    }
+
+    if (category) {
+      // When browsing Mens or Women, also include products tagged 'Mens & Women'
+      // (shared categories like Accessories and Gloves Collection)
+      if (category.toLowerCase() === 'mens' || category.toLowerCase() === 'women') {
+        andConditions.push({
           OR: [
-            { name: { contains: search, mode: 'insensitive' } },
-            { category: { contains: search, mode: 'insensitive' } },
-          ],
-        }
-      : {};
+            { category: { equals: category, mode: 'insensitive' } },
+            { category: { equals: 'Mens & Women', mode: 'insensitive' } },
+          ]
+        });
+      } else {
+        andConditions.push({ category: { equals: category, mode: 'insensitive' } });
+      }
+    }
+
+    if (subCategory) {
+      andConditions.push({ subCategory: { equals: subCategory, mode: 'insensitive' } });
+    }
+
+    if (itemType) {
+      andConditions.push({ itemType: { equals: itemType, mode: 'insensitive' } });
+    }
+
+    const where: any = andConditions.length > 0 ? { AND: andConditions } : {};
 
     const products = await prisma.product.findMany({
-      where: where as any,
+      where: where,
       orderBy: { createdAt: "desc" },
       skip: skip,
       take: limit,
@@ -37,7 +69,7 @@ export async function GET(req: Request) {
       } as any
     });
 
-    const total = await prisma.product.count({ where: where as any });
+    const total = await prisma.product.count({ where: where });
 
     return NextResponse.json({ products, total, skip, limit });
   } catch (error) {

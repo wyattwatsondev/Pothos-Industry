@@ -14,7 +14,7 @@ const cormorant = Cormorant_Garamond({
 })
 
 export const metadata: Metadata = {
-  title: 'HustleMob - Premium Fashion & Apparel',
+  title: 'POTHOS INDUSTRY - Premium Fashion & Apparel',
   description:
     'Shop the latest mens and womens fashion including t-shirts, shoes, hoodies, caps and more. Get 25% OFF on your first order!',
   generator: 'v0.app',
@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     'shoes',
     'hoodies',
     'jackets',
-    'HustleMob',
+    'POTHOS INDUSTRY',
   ],
 }
 

@@ -26,7 +26,9 @@ const ITEMS_PER_PAGE = 20
 
 export function ProductListing() {
     const searchParams = useSearchParams()
-    const categoryFilter = searchParams.get('category')
+    const category = searchParams.get('category')
+    const subCategory = searchParams.get('subCategory')
+    const itemType = searchParams.get('itemType')
     const searchQuery = searchParams.get('search')
 
     const [dbProducts, setDbProducts] = useState<Product[]>([])
@@ -58,7 +60,9 @@ export function ProductListing() {
             setHasMore(true)
             try {
                 const params = new URLSearchParams()
-                if (categoryFilter) params.append('search', categoryFilter)
+                if (category) params.append('category', category)
+                if (subCategory) params.append('subCategory', subCategory)
+                if (itemType) params.append('itemType', itemType)
                 if (searchQuery) params.append('search', searchQuery)
                 params.append('limit', ITEMS_PER_PAGE.toString())
                 params.append('skip', '0')
@@ -82,7 +86,7 @@ export function ProductListing() {
             }
         }
         resetAndFetch()
-    }, [categoryFilter, searchQuery])
+    }, [category, subCategory, itemType, searchQuery])
 
     // Load more when skip changes
     useEffect(() => {
@@ -92,7 +96,9 @@ export function ProductListing() {
             setLoadingMore(true)
             try {
                 const params = new URLSearchParams()
-                if (categoryFilter) params.append('search', categoryFilter)
+                if (category) params.append('category', category)
+                if (subCategory) params.append('subCategory', subCategory)
+                if (itemType) params.append('itemType', itemType)
                 if (searchQuery) params.append('search', searchQuery)
                 params.append('limit', ITEMS_PER_PAGE.toString())
                 params.append('skip', skip.toString())
@@ -111,7 +117,7 @@ export function ProductListing() {
             }
         }
         fetchMore()
-    }, [skip, categoryFilter, searchQuery]) // Removed dbProducts.length to fix infinite loop
+    }, [skip, category, subCategory, itemType, searchQuery])
 
     return (
         <div className="flex-1">
@@ -119,14 +125,6 @@ export function ProductListing() {
                 <p className="text-sm text-gray-500 uppercase font-bold ">
                     Showing <span className="font-bold text-black">{total}</span> products
                 </p>
-                <div className="flex items-center gap-2">
-                    <span className="text-sm text-gray-500">Sort by:</span>
-                    <select className="text-sm font-bold bg-transparent border-none focus:ring-0 p-0 cursor-pointer">
-                        <option>Newest</option>
-                        <option>Price: Low to High</option>
-                        <option>Price: High to Low</option>
-                    </select>
-                </div>
             </div>
 
             {loading ? (

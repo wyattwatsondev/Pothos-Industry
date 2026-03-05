@@ -15,7 +15,7 @@ export function ShirtsCollection({ products }: ShirtsCollectionProps) {
   return (
     <section className="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-white">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading title="Streetwear Collection" subtitle="Shirts & trousers for every vibe" />
+        <SectionHeading title="Textile Jackets" subtitle="Premium technical outerwear for every environment" />
 
         {/* 4-col grid, 2 rows = 8 products */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">

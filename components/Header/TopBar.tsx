@@ -34,25 +34,25 @@ export function TopBar() {
 
             {/* Phone */}
             <a
-              href="https://wa.me/7737105399"
+              href="https://wa.me/923456732994"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:text-primary transition-colors"
             >
               <Phone className="w-2.5 h-2.5 sm:w-4 sm:h-4" />
               <span>
-                7737105399
+                +92 345 6732994
               </span>
             </a>
 
             {/* Email */}
             <a
-              href="mailto:Hustlemoblifestyle1@gmail.com"
+              href="mailto:info@pothosindustry.com"
               className="flex items-center gap-1 hover:text-primary transition-colors"
             >
               <Mail className="w-2.5 h-2.5 sm:w-4 sm:h-4" />
               <span className="lowercase">
-                Hustlemoblifestyle1@gmail.com
+                info@pothosindustry.com
               </span>
             </a>
           </div>

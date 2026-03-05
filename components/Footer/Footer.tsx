@@ -93,17 +93,23 @@ export function Footer() {
               <span className="w-8 h-px bg-black/20" />
               Direct Support
             </h3>
-            <div className="space-y-4">
-              <a href="mailto:Hustlemoblifestyle1@gmail.com" className="group flex flex-col gap-1">
+            <div className="space-y-6">
+              <div className="group flex flex-col gap-1">
+                <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Our Address</span>
+                <span className="text-sm text-[#2D4D63] font-bold transition-colors">
+                  Union St, opposite Noora bad Colony, Defence road Sialkot 51310-Pakistan
+                </span>
+              </div>
+              <a href="mailto:info@pothosindustry.com" className="group flex flex-col gap-1">
                 <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">Email Us</span>
                 <span className="text-sm text-[#2D4D63] font-bold group-hover:text-[#065F46] transition-colors break-all">
-                  hustlemoblifestyle1@gmail.com
+                  info@pothosindustry.com
                 </span>
               </a>
-              <a href="https://wa.me/17737105399" target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-1">
+              <a href="https://wa.me/923456732994" target="_blank" rel="noopener noreferrer" className="group flex flex-col gap-1">
                 <span className="text-[10px] text-gray-500 uppercase tracking-widest font-black">WhatsApp Direct</span>
                 <span className="text-sm text-[#2D4D63] font-bold group-hover:text-[#065F46] transition-colors">
-                  (773) 710-5399
+                  +92 345 6732994
                 </span>
               </a>
             </div>

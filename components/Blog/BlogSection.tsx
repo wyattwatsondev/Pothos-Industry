@@ -21,7 +21,7 @@ const blogPosts: BlogPost[] = [
         subtitle: "Discover unique, off-the-radar destinations around the world that offer breathtaking scenery and unforgettable experiences.",
         category: "Health & Nutrition",
         date: "August 7, 2017",
-        image: "/ProductImages/33.jpg",
+        image: "/Photos Industry/8.jpeg",
     },
     {
         id: 2,
@@ -29,7 +29,7 @@ const blogPosts: BlogPost[] = [
         subtitle: "Explore a curated list of must-visit places for every kind of traveler, whether you love mountains, beaches, or cultural landmarks.",
         category: "Sustainability",
         date: "March 23, 2013",
-        image: "/ProductImages/35.jpg",
+        image: "/Photos Industry/12.jpeg",
     },
     {
         id: 3,
@@ -37,7 +37,7 @@ const blogPosts: BlogPost[] = [
         subtitle: "Learn how to immerse yourself in the culture of each place you visit by following these insider tips. From dining at local spots to embracing.",
         category: "Cultural Insights",
         date: "May 31, 2015",
-        image: "/ProductImages/15.jpg",
+        image: "/Photos Industry/7.jpeg",
     },
     {
         id: 4,
@@ -45,7 +45,7 @@ const blogPosts: BlogPost[] = [
         subtitle: "Discover the science-backed ingredients that are revolutionizing the beauty industry with a focus on simplicity and efficacy.",
         category: "Skincare",
         date: "October 24, 2024",
-        image: "/ProductImages/94.png",
+        image: "/Photos Industry/30.jpeg",
     },
     {
         id: 5,
@@ -53,7 +53,7 @@ const blogPosts: BlogPost[] = [
         subtitle: "A photographic journey through the world's most iconic cities, capturing the hidden details often overlooked by the casual observer.",
         category: "Photography",
         date: "January 15, 2024",
-        image: "/ProductImages/65.jpg",
+        image: "/Photos Industry/11.jpeg",
     },
 ]
 
@@ -65,7 +65,7 @@ export function BlogSection() {
                 {/* Header with View All */}
                 <div className="flex justify-between items-end mb-12 border-b-2 border-gray-50 pb-6">
                     <div className="flex-1">
-                        <h2 className="text-3xl lg:text-4xl font-black text-gray-900 tracking-tight uppercase">
+                        <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight uppercase">
                             Latest Insights.
                         </h2>
                     </div>
