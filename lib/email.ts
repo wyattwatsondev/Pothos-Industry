@@ -113,23 +113,23 @@ body{font-family:Helvetica,Arial,sans-serif;margin:0;padding:20px;background-col
 </table>
 </div>
 <div style="padding:30px;text-align:center;font-size:12px;color:#666;background:#fafafa">
-<div style="font-weight:700;color:#000;margin-bottom:5px">STAY STYLISH WITH HUSTLEMOB</div>
-<div>Visit us: <a href="https://hustlemob-lifestyle.vercel.app/" style="color:#000">hustlemob-lifestyle.vercel.app</a></div>
-<div>Support: Hustlemoblifestyle1@gmail.com</div>
-<div>Call: 7737105399</div>
-<div style="margin-top:20px;color:#ccc">&copy; ${new Date().getFullYear()} Hustlemob. All Rights Reserved.</div>
+<div style="font-weight:700;color:#000;margin-bottom:5px">STAY STYLISH WITH POTHOS INDUSTRY</div>
+<div>Visit us: <a href="https://pothosindustry.com" style="color:#000">pothosindustry.com</a></div>
+<div>Support: info@pothosindustry.com</div>
+<div>Call: +92 345 6732994</div>
+<div style="margin-top:20px;color:#ccc">&copy; ${new Date().getFullYear()} Pothos Industry. All Rights Reserved.</div>
 </div>
 </div></body></html>`;
 
   const userMailOptions = {
-    from: `"Hustlemob" <${process.env.EMAIL_USER}>`,
+    from: `"Pothos Industry" <${process.env.EMAIL_USER}>`,
     to: email,
     subject: `Success! Order #${orderId} Confirmed`,
     html: emailHtml,
   };
 
   const adminMailOptions = {
-    from: `"Hustlemob System" <${process.env.EMAIL_USER}>`,
+    from: `"Pothos Industry System" <${process.env.EMAIL_USER}>`,
     to: process.env.ADMIN_EMAIL,
     subject: `🚀 SALE ALERT: Order #${orderId}`,
     html: emailHtml,

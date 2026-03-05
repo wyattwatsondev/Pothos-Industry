@@ -16,7 +16,7 @@ export function BundlesCombo({ products }: BundlesComboProps) {
     return (
         <section className="w-full py-10 sm:py-12 px-4 sm:px-6 lg:px-8 bg-white overflow-hidden">
             <div className="max-w-7xl mx-auto">
-                <SectionHeading title="Bundles Combo" subtitle="Save more with our exclusive curated bundles" />
+                <SectionHeading title="Sportswear" subtitle="Save more with our exclusive curated bundles" />
 
                 {/* 4-col grid, 1 row = 4 products */}
                 <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">

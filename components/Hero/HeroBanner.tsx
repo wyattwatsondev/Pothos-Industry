@@ -8,7 +8,7 @@ export function HeroBanner() {
   return (
     <section className="relative w-full lg:min-h-[750px] flex flex-col justify-between 
       bg-gradient-to-br from-[#A5C9E1]/50 via-[#D8D3F5]/50 to-[#F5E6FF]/50 
-      overflow-hidden pt-24 lg:pt-28 pb-10 px-6 lg:px-24">
+      overflow-hidden pt-8 lg:pt-16 pb-8 px-6 lg:px-24">
 
       {/* Background Watermark Text */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-0">
@@ -17,7 +17,7 @@ export function HeroBanner() {
         </h2>
       </div>
 
-      <div className="flex-1 flex flex-col lg:flex-row items-center justify-between relative z-10 max-w-[1440px] mx-auto w-full gap-8 lg:gap-0 my-2">
+      <div className="flex-1 flex flex-col lg:flex-row items-center justify-between relative z-10 max-w-[1440px] mx-auto w-full gap-8 lg:gap-0 mt-0 mb-4">
 
         {/* Left Content */}
         <motion.div
@@ -26,12 +26,12 @@ export function HeroBanner() {
           transition={{ duration: 0.8 }}
           className="lg:w-[62%] flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left items-center lg:items-start"
         >
-          <h1 className="text-3xl sm:text-6xl lg:text-[5.4rem] font-bold text-charcoal leading-[1.1] lg:leading-[1.05] tracking-tighter max-w-4xl drop-shadow-[0_2px_15px_rgba(255,255,255,0.9)] uppercase">
-            Experience the <span className="text-[#065F46]">Premium</span> <br className="hidden sm:block" /> Comfort you <span className="text-[#B45309]">Deserve</span>
+          <h1 className="text-3xl sm:text-6xl lg:text-[4.5rem] font-bold text-charcoal leading-[1.1] lg:leading-[1.05] tracking-tighter max-w-4xl drop-shadow-[0_2px_15px_rgba(255,255,255,0.9)] uppercase">
+            Experience the <span className="text-[#065F46]">Premium</span>  Comfort you <span className="text-[#B45309]">Deserve</span>
           </h1>
 
           <p className="text-charcoal/70 text-sm sm:text-lg max-w-2xl font-bold leading-relaxed px-4 lg:px-0">
-            Mauris porta lectus nulla, non dignissim dolor sollicitudin et. Sed mi tortor, aliquam eget congue a, faucibus sed est. Discover our exclusive boutique collection designed for elite performance and style.
+           Discover a new level of style with our premium clothing collection. Designed with attention to detail and crafted from high-quality fabrics, our pieces combine comfort, durability, and modern fashion to help you stand out wherever you go.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-3 lg:gap-4 w-full sm:w-auto px-6 sm:px-0">

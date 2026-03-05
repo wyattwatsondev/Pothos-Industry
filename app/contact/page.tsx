@@ -21,7 +21,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-black uppercase tracking-tight">Email Us</h4>
-                                    <p className="text-gray-500">hello@hustlemob.com</p>
+                                    <p className="text-gray-500">info@pothosindustry.com</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
@@ -30,7 +30,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-black uppercase tracking-tight">Call Us</h4>
-                                    <p className="text-gray-500">+1 (234) 567-890</p>
+                                    <p className="text-gray-500">+92 345 6732994</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
@@ -39,7 +39,7 @@ export default function ContactPage() {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-black uppercase tracking-tight">Our Office</h4>
-                                    <p className="text-gray-500">123 Streetwear Ave, New York, NY 10001</p>
+                                    <p className="text-gray-500">Union St, opposite Noora bad Colony, Defence road Sialkot 51310-Pakistan</p>
                                 </div>
                             </div>
                         </div>

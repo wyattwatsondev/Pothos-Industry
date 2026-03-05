@@ -2,73 +2,144 @@
 
 import React from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
+import Link from 'next/link'
+import { ChevronRight } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 
-const categories = [
-    { id: 'mens-shirts', name: "Men's Shirts" },
-    { id: 'womens-shirts', name: "Women's Shirts" },
-    { id: 'shoes', name: 'Shoes' },
-    { id: 'caps-hats', name: 'Caps & Hats' },
-    { id: 'hoodies', name: 'Hoodies' },
-    { id: 'jackets', name: 'Jackets' },
-    { id: 'trousers-shorts', name: 'Trousers & Shorts' },
-    { id: 'bundles-combo', name: 'Bundles & Combo' },
+const filterCategories = [
+    {
+        id: 'Mens',
+        name: 'Mens',
+        subCategories: [
+            { id: 'Textile', name: 'Textile' },
+            { id: 'Textile Jackets', name: 'Textile Jackets' },
+            { id: 'Leather Jackets', name: 'Leather Jackets' },
+            { id: 'Pant', name: 'Leather Pants' },
+            { id: 'Swimming Diving Suit', name: 'Swimming Diving Suit' },
+        ]
+    },
+    {
+        id: 'Women',
+        name: 'Women',
+        subCategories: [
+            { id: 'Textile', name: 'Textile' },
+            { id: 'Textile Jackets', name: 'Textile Jackets' },
+            { id: 'Leather Jackets', name: 'Leather Jackets' },
+            { id: 'Pants', name: 'Pants' },
+            { id: 'Swimming Diving Suits', name: 'Swimming Diving Suits' },
+        ]
+    },
+    {
+        id: 'Kids',
+        name: 'Kids',
+        subCategories: [
+            { id: 'Textile', name: 'Textile' },
+            { id: 'Kids Leather And Textile Jackets', name: 'Leather & Textile Jackets' },
+        ]
+    },
+    {
+        id: 'Mens & Women',
+        name: 'Gloves & Accessories',
+        subCategories: [
+            { id: 'Gloves Collection', name: 'Gloves Collection' },
+            { id: 'Accessories', name: 'Accessories' },
+        ]
+    },
+    {
+        id: 'Other',
+        name: 'Uniforms',
+        subCategories: [
+            { id: 'Uniforms', name: 'Uniforms' },
+        ]
+    },
 ]
 
 export function ProductFilter() {
     const router = useRouter()
     const searchParams = useSearchParams()
     const currentCategory = searchParams.get('category')
+    const currentSubCategory = searchParams.get('subCategory')
 
-    const handleCategoryChange = (categoryId: string) => {
-        const params = new URLSearchParams(searchParams.toString())
-        if (!categoryId || currentCategory === categoryId) {
-            params.delete('category')
-        } else {
+    const handleCategoryChange = (categoryId: string, subCategoryId?: string) => {
+        const params = new URLSearchParams()
+        if (categoryId) {
             params.set('category', categoryId)
+            if (subCategoryId) params.set('subCategory', subCategoryId)
         }
         router.push(`/products?${params.toString()}`)
     }
 
-    return (
-        <div className="space-y-6 lg:pr-8 lg:border-r border-gray-100 h-full">
-            <div>
-                <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900 mb-4">Categories</h3>
-                <div className="grid grid-cols-3 gap-x-2 gap-y-2 lg:flex lg:flex-col lg:space-y-2.5">
-                    {/* All Option */}
-                    <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => handleCategoryChange('')}>
-                        <Checkbox
-                            id="all-categories"
-                            checked={!currentCategory}
-                            onCheckedChange={() => handleCategoryChange('')}
-                            className="w-5 h-5 rounded-md border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
-                        />
-                        <Label
-                            htmlFor="all-categories"
-                            className={`text-[10px] sm:text-xs font-medium cursor-pointer transition-colors ${!currentCategory ? 'text-black font-bold' : 'text-gray-500 group-hover:text-black'}`}
-                        >
-                            All
-                        </Label>
-                    </div>
+    const isActive = (catId: string, subId?: string) => {
+        if (subId) return currentCategory === catId && currentSubCategory === subId
+        return currentCategory === catId
+    }
 
-                    {categories.map((category) => (
-                        <div key={category.id} className="flex items-center space-x-3 group cursor-pointer" onClick={() => handleCategoryChange(category.id)}>
+    return (
+        <div className="space-y-5 lg:pr-8 lg:border-r border-gray-100 h-full">
+            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900">Categories</h3>
+
+            {/* All */}
+            <div
+                className="flex items-center space-x-3 group cursor-pointer"
+                onClick={() => handleCategoryChange('')}
+            >
+                <Checkbox
+                    id="all-categories"
+                    checked={!currentCategory}
+                    onCheckedChange={() => handleCategoryChange('')}
+                    className="w-4 h-4 rounded-md border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                />
+                <Label
+                    htmlFor="all-categories"
+                    className={`text-xs cursor-pointer transition-colors ${!currentCategory ? 'text-black font-bold' : 'text-gray-500 group-hover:text-black'}`}
+                >
+                    All Products
+                </Label>
+            </div>
+
+            {/* Category groups */}
+            <div className="space-y-4">
+                {filterCategories.map((cat) => (
+                    <div key={cat.id} className="space-y-2">
+                        {/* Category header - clickable */}
+                        <div
+                            className="flex items-center space-x-3 group cursor-pointer"
+                            onClick={() => handleCategoryChange(cat.id)}
+                        >
                             <Checkbox
-                                id={category.id}
-                                checked={currentCategory === category.id}
-                                onCheckedChange={() => handleCategoryChange(category.id)}
-                                className="w-5 h-5 rounded-md border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
+                                id={cat.id}
+                                checked={isActive(cat.id) && !currentSubCategory}
+                                onCheckedChange={() => handleCategoryChange(cat.id)}
+                                className="w-4 h-4 rounded-md border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
                             />
                             <Label
-                                htmlFor={category.id}
-                                className={`text-[10px] sm:text-xs font-medium cursor-pointer transition-colors ${currentCategory === category.id ? 'text-black font-bold' : 'text-gray-500 group-hover:text-black'}`}
+                                htmlFor={cat.id}
+                                className={`text-xs font-bold cursor-pointer uppercase tracking-wide transition-colors ${isActive(cat.id) && !currentSubCategory ? 'text-black' : 'text-gray-700 group-hover:text-black'}`}
                             >
-                                {category.name}
+                                {cat.name}
                             </Label>
                         </div>
-                    ))}
-                </div>
+
+                        {/* Sub-categories (always visible, indented) */}
+                        <div className="pl-7 space-y-1.5 border-l-2 border-gray-100">
+                            {cat.subCategories.map((sub) => (
+                                <div
+                                    key={sub.id}
+                                    className="flex items-center space-x-2 group cursor-pointer"
+                                    onClick={() => handleCategoryChange(cat.id, sub.id)}
+                                >
+                                    <div className={`w-1.5 h-1.5 rounded-full transition-colors flex-shrink-0 ${isActive(cat.id, sub.id) ? 'bg-black' : 'bg-gray-300 group-hover:bg-gray-600'}`} />
+                                    <span
+                                        className={`text-[11px] cursor-pointer transition-colors ${isActive(cat.id, sub.id) ? 'text-black font-bold' : 'text-gray-500 group-hover:text-black'}`}
+                                    >
+                                        {sub.name}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ))}
             </div>
         </div>
     )

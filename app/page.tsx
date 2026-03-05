@@ -9,6 +9,7 @@ import { ShirtsCollection } from '@/components/Collections/ShirtsCollection'
 import { AccessoriesCollection } from '@/components/Collections/AccessoriesCollection'
 import { BundlesCombo } from '@/components/Collections/BundlesCombo'
 import { TestimonialsSection } from '@/components/Testimonials/TestimonialsSection'
+import { FAQSection } from '@/components/FAQ/FAQSection'
 import { BlogSection } from '@/components/Blog/BlogSection'
 import { Newsletter } from '@/components/Newsletter/Newsletter'
 import { Footer } from '@/components/Footer/Footer'
@@ -83,7 +84,7 @@ export default async function Home() {
 
         {/* NEW ARRIVALS — 4 products, 1 row */}
         <section className="bg-gray-50">
-          <ProductGrid title="NEW ARRIVALS" items={newArrivals} />
+          <ProductGrid title="New Arrivals" items={newArrivals} />
         </section>
 
         <GallerySection />
@@ -92,21 +93,22 @@ export default async function Home() {
           <FeaturedBanner />
         </section>
 
-        {/* STREETWEAR COLLECTION — 8 products (shirts + trousers), 2 rows */}
+        {/* TEXTILE JACKETS — 8 products (shirts + trousers), 2 rows */}
         <ShirtsCollection products={streetwear} />
 
         {/* BEST SELLERS — 8 products all mixed, 2 rows */}
         <section className="bg-gray-50">
-          <ProductGrid title="BEST SELLERS" items={bestSellers} />
+          <ProductGrid title="Best Sellers" items={bestSellers} />
         </section>
 
-        {/* BUNDLES COMBO — 4 products, 1 row */}
+        {/* SPORTSWEAR — 4 products, 1 row */}
         <BundlesCombo products={bundles} />
 
-        {/* ACCESSORIES & MORE — 4 cap products, 1 row */}
+        {/* ACCESSORIES COLLECTION — 4 cap products, 1 row */}
         <AccessoriesCollection products={accessories} />
 
         <TestimonialsSection />
+        <FAQSection />
         <BlogSection />
       </main>
 

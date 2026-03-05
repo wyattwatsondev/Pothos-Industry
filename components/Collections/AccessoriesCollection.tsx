@@ -15,7 +15,7 @@ export function AccessoriesCollection({ products }: AccessoriesCollectionProps) 
   return (
     <section className="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-gray-50/50">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading title="Accessories & More" subtitle="Complete your look with our premium caps & accessories" />
+        <SectionHeading title="Accessories Collection" subtitle="Complete your look with our premium caps & accessories" />
 
         {/* 4-col grid, 1 row = 4 products */}
         <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">

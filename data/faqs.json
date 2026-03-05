@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "question": "What is Pothos Industry known for?",
+    "answer": "Pothos Industry is renowned for its premium quality textile and leather garments. We specialize in high-end fashion, technical outerwear, and durable working gear, ensuring a perfect blend of comfort, style, and performance."
+  },
+  {
+    "id": 2,
+    "question": "How do I choose the correctly sized garment?",
+    "answer": "We provide detailed size guides for every product category. You can find the 'Size Chart' link on each product page. If you're between sizes, we generally recommend sizing up for a more relaxed fit or consulting our support team for specific garment measurements."
+  },
+  {
+    "id": 3,
+    "question": "What is your return and exchange policy?",
+    "answer": "We offer a 30-day hassle-free return and exchange policy. Garments must be in their original condition, unworn, and with all tags attached. Please visit our 'Returns' page to initiate a request."
+  },
+  {
+    "id": 4,
+    "question": "Do you offer international shipping?",
+    "answer": "Yes, Pothos Industry ships worldwide. Shipping costs and delivery times vary by destination. You can view the estimated shipping fees at checkout before finalizing your order."
+  },
+  {
+    "id": 5,
+    "question": "How can I track my order status?",
+    "answer": "Once your order is shipped, you will receive a confirmation email with a tracking number and a link to track your package in real-time. You can also track your order directly through your account dashboard on our website."
+  },
+  {
+    "id": 6,
+    "question": "What materials are used in your leather jackets?",
+    "answer": "We use only the finest authentic leathers, including premium Cowhide, Sheepskin, and Suede. Each jacket is handcrafted with attention to detail, featuring high-quality zippers and luxury linings for maximum durability and comfort."
+  },
+  {
+    "id": 7,
+    "question": "Can I request a custom or bespoke design?",
+    "answer": "Yes! We offer customization services for bulk orders and specific bespoke requests. Please contact our 'Bespoke Services' team via the contact form with your requirements, and we will get back to you with a quote."
+  },
+  {
+    "id": 8,
+    "question": "How should I care for my textile and leather products?",
+    "answer": "For textile garments, we recommend a cold machine wash and air drying. For leather products, use a dedicated leather cleaner and avoid direct sunlight or heat sources. Specific care instructions are provided on the label of each garment."
+  },
+  {
+    "id": 9,
+    "question": "What are the typical shipping and delivery times?",
+    "answer": "Domestic orders typically arrive within 3-5 business days. International shipping can take between 7-14 business days depending on customs processing and local delivery services."
+  },
+  {
+    "id": 10,
+    "question": "How can I reach your customer support team?",
+    "answer": "Our support team is available via email at support@pothos-industry.com or through our 'Contact Us' page. We strive to respond to all inquiries within 24 hours during business days."
+  }
+]
