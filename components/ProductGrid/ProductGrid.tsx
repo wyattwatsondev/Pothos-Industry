@@ -14,13 +14,14 @@ interface ProductGridProps {
 
 export function ProductGrid({ title, items }: ProductGridProps) {
   return (
-    <section className="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-12 mx-auto max-w-7xl">
+    <section className="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-8 mx-auto max-w-[1550px]">
       <SectionHeading title={title} subtitle="Premium quality products selected just for you" />
 
-      <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-        {items.map((product) => (
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6 lg:gap-8">
+        {items.slice(0, 6).map((product, index) => (
           <motion.div
             key={product.id}
+            className={index === 5 ? 'lg:hidden' : ''}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

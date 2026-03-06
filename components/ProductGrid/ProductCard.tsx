@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { Heart } from 'lucide-react'
+import { Heart, ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 
@@ -25,63 +25,64 @@ export function ProductCard({
   rating,
 }: ProductCardProps) {
   return (
-    <div className="bg-white rounded-xl sm:rounded-[2rem] p-1.5 sm:p-2.5 border border-gray-100 transition-all duration-500 md:hover:shadow-xl group shadow-none">
+    <div className="bg-white rounded-[2rem] p-2 border border-gray-100 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] group relative overflow-hidden">
       <Link href={`/product/${id}`}>
-        {/* Image Container — shorter on mobile */}
-        <div className="relative overflow-hidden rounded-lg sm:rounded-[1.5rem] aspect-[4/3] sm:aspect-square flex items-center justify-center">
+        {/* Image Container */}
+        <div className="relative overflow-hidden rounded-[1.8rem] aspect-square bg-[#F9FAFB] flex items-center justify-center">
           <Image
             src={image || '/placeholder.svg'}
             alt={name}
             fill
-            className="object-contain p-2 sm:p-3 md:group-hover:scale-110 transition-transform duration-500"
+            className="object-contain p-6 group-hover:scale-110 transition-transform duration-700 ease-out"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
           />
 
-          {/* Badge + Heart */}
-          <div className="absolute inset-x-1.5 top-1.5 sm:inset-x-2 sm:top-2 flex justify-between items-start">
-            <div className="bg-white/80 backdrop-blur-sm px-1.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[10px] font-bold text-gray-700 border border-black/5 shadow-none">
-              {badge || 'Best Seller'}
-            </div>
-            <button className="w-6 h-6 sm:w-8 sm:h-8 bg-white/90 backdrop-blur-md rounded-full flex items-center justify-center border border-black/5 shadow-none md:hover:scale-110 transition-transform duration-300">
-              <Heart className="w-3 h-3 sm:w-4 sm:h-4 text-accent fill-accent" />
-            </button>
+          {/* Badge */}
+          <div className="absolute top-2 sm:top-4 left-2 sm:left-4">
+            <span className="bg-black text-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-widest shadow-lg">
+              {badge || 'Premium'}
+            </span>
           </div>
 
-          {/* Pagination Dots */}
-          <div className="absolute bottom-1.5 left-1/2 -translate-x-1/2 flex gap-1 z-10">
-            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-primary" />
-            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-charcoal/20" />
-            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-charcoal/10" />
-          </div>
+          {/* Heart/Wishlist Button */}
+          <button className="absolute top-2 sm:top-4 right-2 sm:right-4 w-7 h-7 sm:w-9 sm:h-9 bg-white/80 backdrop-blur-md rounded-full flex items-center justify-center border border-black/5 shadow-sm opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500 hover:bg-black hover:text-white">
+            <Heart className="w-3 h-3 sm:w-4 sm:h-4" />
+          </button>
+
+          {/* Hover Overlay Text */}
+          <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
         </div>
 
         {/* Content */}
-        <div className="mt-2 sm:mt-4 px-0.5 sm:px-1 pb-0.5 sm:pb-1">
-          {category && (
-            <p className="text-primary text-[8px] sm:text-[11px] font-extrabold uppercase tracking-[0.15em] mb-1 sm:mb-2">
-              {category}
-            </p>
-          )}
-          <h3 className="font-heading font-semibold text-[#1A1A1A] text-[10px] sm:text-sm leading-tight mb-1 sm:mb-1.5 line-clamp-1">
-            {name}
-          </h3>
-
-          {/* Price */}
-          <div className="flex items-center gap-1 sm:gap-2 mb-1.5 sm:mb-5">
-            <span className="text-sm sm:text-xl font-black text-charcoal tracking-tight">${price}</span>
-            {originalPrice && (
-              <span className="text-[9px] sm:text-xs text-gray-400 line-through">
-                ${originalPrice}
-              </span>
-            )}
+        <div className="mt-5 px-2 pb-2">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              {category && (
+                <p className="text-gray-400 text-[8px] sm:text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 sm:mb-1">
+                  {category}
+                </p>
+              )}
+              <h3 className="font-bold text-charcoal text-xs sm:text-base lg:text-lg leading-tight tracking-tighter group-hover:text-primary transition-colors duration-300 line-clamp-1 uppercase">
+                {name}
+              </h3>
+            </div>
           </div>
 
-          {/* Buy Now Button — compact on mobile */}
-          <Button
-            className="w-full bg-charcoal md:hover:bg-primary text-white font-extrabold py-2 sm:py-3 h-8 sm:h-11 text-[10px] sm:text-xs rounded-full transition-all duration-500 active:scale-95 shadow-none md:hover:shadow-primary/30"
-          >
-            Explore Item
-          </Button>
+          {/* Price & Action */}
+          <div className="flex items-center justify-between mt-3 sm:mt-4">
+            <div className="flex flex-col">
+              <span className="text-base sm:text-xl font-black text-charcoal tracking-tighter leading-none">${price}</span>
+              {originalPrice && (
+                <span className="text-[10px] sm:text-xs text-gray-400 line-through mt-0.5 sm:mt-1 opacity-60">
+                  ${originalPrice}
+                </span>
+              )}
+            </div>
+
+            <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-charcoal group-hover:bg-primary text-white flex items-center justify-center transition-all duration-500 group-hover:scale-110 shadow-lg">
+              <ArrowRight className="w-3.5 h-3.5 sm:w-5 sm:h-5" />
+            </div>
+          </div>
         </div>
       </Link>
     </div>

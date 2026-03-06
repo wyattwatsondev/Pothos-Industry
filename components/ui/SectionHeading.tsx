@@ -38,16 +38,16 @@ export function SectionHeading({
                 transition={{ delay: 0.2 }}
                 className="flex items-center gap-3 mb-4"
             >
-                <div className="h-[1px] w-8 bg-black/10 hidden sm:block" />
+                <div className="h-[1px] w-8 bg-black/90 hidden sm:block" />
                 <span className="text-[12px] font-black uppercase tracking-[0.4em] text-gray-400">
                     Premium Collection
                 </span>
-                <div className="h-[1px] w-8 bg-black/10 hidden sm:block" />
+                <div className="h-[1px] w-8 bg-black/90 hidden sm:block" />
             </motion.div>
 
             {/* Main Title */}
             <div className="relative">
-                <h2 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-charcoal tracking-tighter leading-none uppercase">
+                <h2 className="text-2xl sm:text-5xl lg:text-6xl font-sans font-extrabold text-charcoal tracking-tighter leading-none uppercase">
                     {title.split(' ').map((word, i) => (
                         <span key={i} className="inline-block mr-3">
                             {word}
@@ -75,7 +75,7 @@ export function SectionHeading({
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.3 }}
-                    className="mt-6 text-gray-400 text-xs sm:text-sm max-w-xl font-bold uppercase tracking-widest leading-relaxed"
+                    className="mt-6 text-gray-600 text-xs sm:text-sm max-w-xl font-bold uppercase tracking-widest leading-relaxed"
                 >
                     {subtitle}
                 </motion.p>

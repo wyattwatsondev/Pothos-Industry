@@ -65,15 +65,15 @@ export default async function Home() {
   })
 
   // Filter products in memory
-  const newArrivals = allProducts.slice(0, 4)
-  const bestSellers = [...allProducts].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 8)
-  const streetwear = allProducts.filter(p => streetwearCategories.includes(p.category)).slice(0, 8)
-  const bundles = allProducts.filter(p => bundleCategories.includes(p.category)).slice(0, 4)
-  const accessories = allProducts.filter(p => p.category === 'caps-hats').slice(0, 4)
+  const newArrivals = allProducts.slice(0, 6)
+  const bestSellers = [...allProducts].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 6)
+  const streetwear = allProducts.filter(p => streetwearCategories.includes(p.category)).slice(0, 6)
+  const bundles = allProducts.filter(p => bundleCategories.includes(p.category)).slice(0, 6)
+  const accessories = allProducts.filter(p => p.category === 'caps-hats').slice(0, 6)
 
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen">
       {/* Header */}
       <Navigation />
 
@@ -83,13 +83,13 @@ export default async function Home() {
         <CategoryGrid />
 
         {/* NEW ARRIVALS — 4 products, 1 row */}
-        <section className="bg-gray-50">
+        <section>
           <ProductGrid title="New Arrivals" items={newArrivals} />
         </section>
 
         <GallerySection />
 
-        <section className="w-full py-10 sm:py-12 lg:py-16 bg-gray-50 overflow-hidden">
+        <section className="w-full py-10 sm:py-12 lg:py-16 overflow-hidden">
           <FeaturedBanner />
         </section>
 
@@ -97,7 +97,7 @@ export default async function Home() {
         <ShirtsCollection products={streetwear} />
 
         {/* BEST SELLERS — 8 products all mixed, 2 rows */}
-        <section className="bg-gray-50">
+        <section>
           <ProductGrid title="Best Sellers" items={bestSellers} />
         </section>
 

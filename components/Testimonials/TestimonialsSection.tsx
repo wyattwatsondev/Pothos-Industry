@@ -73,15 +73,11 @@ export function TestimonialsSection() {
     <section className="w-full py-12 lg:py-16 px-4 sm:px-6 lg:px-12 bg-white overflow-hidden font-sans">
       <div className="max-w-[1400px] mx-auto">
 
-        {/* Header with View All */}
-        <div className="flex justify-between items-end mb-10 pb-6 border-b-2 border-gray-50">
-          <h2 className="text-3xl lg:text-4xl font-black text-[#1E293B] tracking-tight uppercase">
+        {/* Header */}
+        <div className="flex justify-center md:justify-start mb-10 pb-6 border-b-2 border-gray-50">
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-[#1E293B] tracking-tight uppercase text-center md:text-left">
             What Customers are Saying.
           </h2>
-          <Link href="/reviews" className="group flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-charcoal hover:text-primary transition-all duration-300">
-            View All Reviews
-            <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </Link>
         </div>
 
         {/* Testimonials Grid */}

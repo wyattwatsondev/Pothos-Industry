@@ -26,7 +26,7 @@ export function TopBar() {
         >
           {/* Left Side */}
           <p className="font-medium truncate pr-2">
-            Get 25% OFF on your first order!
+            Get 25% OFF
           </p>
 
           {/* Right Side */}

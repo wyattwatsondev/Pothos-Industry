@@ -17,15 +17,15 @@ export default function TermsPage() {
                     </section>
                     <section>
                         <h2 className="text-xl font-black text-black uppercase mb-4 tracking-tighter">2. Use License</h2>
-                        <p className="leading-relaxed">Permission is granted to temporarily download one copy of the materials on HustleMob's website for personal, non-commercial transitory viewing only.</p>
+                        <p className="leading-relaxed">Permission is granted to temporarily download one copy of the materials on POTHOS INDUSTRY's website for personal, non-commercial transitory viewing only.</p>
                     </section>
                     <section>
                         <h2 className="text-xl font-black text-black uppercase mb-4 tracking-tighter">3. Disclaimer</h2>
-                        <p className="leading-relaxed">The materials on HustleMob's website are provided on an 'as is' basis. HustleMob makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
+                        <p className="leading-relaxed">The materials on POTHOS INDUSTRY's website are provided on an 'as is' basis. POTHOS INDUSTRY makes no warranties, expressed or implied, and hereby disclaims and negates all other warranties including, without limitation, implied warranties or conditions of merchantability, fitness for a particular purpose, or non-infringement of intellectual property or other violation of rights.</p>
                     </section>
                     <section>
                         <h2 className="text-xl font-black text-black uppercase mb-4 tracking-tighter">4. Limitations</h2>
-                        <p className="leading-relaxed">In no event shall HustleMob or its suppliers be liable for any damages arising out of the use or inability to use the materials on HustleMob's website.</p>
+                        <p className="leading-relaxed">In no event shall POTHOS INDUSTRY or its suppliers be liable for any damages arising out of the use or inability to use the materials on POTHOS INDUSTRY's website.</p>
                     </section>
                 </div>
             </main>

@@ -298,9 +298,9 @@ export function Navigation() {
 
   return (
     <>
-      <header className="sticky top-0 z-[100] w-full uppercase tracking-wider bg-white/90 backdrop-blur-md border-b border-black/5">
+      <header className="sticky top-0 z-[100] w-full uppercase tracking-wider bg-[#F8FAFC]/95 backdrop-blur-xl border-b border-gray-100">
         <div className="mx-auto px-4 sm:px-6 lg:px-12">
-          <div className="flex items-center justify-between h-20 md:h-28">
+          <div className="flex items-center justify-between h-20 md:h-24">
             {/* Logo */}
             <Link href="/" className="flex-shrink-0 flex items-center">
               <Image
@@ -339,7 +339,7 @@ export function Navigation() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-1 bg-gradient-to-br from-[#A5C9E1]/90 via-[#D8D3F5]/90 to-[#F5E6FF]/90 backdrop-blur-xl border border-white/30 shadow-2xl rounded-2xl py-6 px-8 min-w-[700px] z-[110] columns-3 gap-8 space-y-8"
+                        className="absolute top-full left-0 mt-2 bg-white border border-gray-100 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] rounded-2xl py-6 px-8 min-w-[700px] z-[110] columns-3 gap-8 space-y-8"
                       >
                         {item.children.map((child) => (
                           <div key={child.name} className="break-inside-avoid-column space-y-4">

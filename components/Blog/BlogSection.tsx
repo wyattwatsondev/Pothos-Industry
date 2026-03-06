@@ -63,16 +63,18 @@ export function BlogSection() {
             <div className="max-w-[1550px] mx-auto">
 
                 {/* Header with View All */}
-                <div className="flex justify-between items-end mb-12 border-b-2 border-gray-50 pb-6">
-                    <div className="flex-1">
+                <div className="flex flex-col md:flex-row md:justify-between md:items-end mb-12 border-b-2 border-gray-50 pb-6 gap-2 md:gap-0">
+                    <div className="flex-1 text-center md:text-left">
                         <h2 className="text-2xl lg:text-3xl font-extrabold text-gray-900 tracking-tight uppercase">
                             Latest Insights.
                         </h2>
                     </div>
-                    <Link href="/blog" className="group flex items-center gap-2 text-sm font-black uppercase tracking-[0.2em] text-charcoal hover:text-primary transition-all duration-300">
-                        View All Stories
-                        <ArrowUpRight className="w-4 h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                    </Link>
+                    <div className="flex justify-end">
+                        <Link href="/blog" className="group flex items-center gap-1.5 text-[10px] md:text-sm font-black uppercase tracking-[0.2em] text-charcoal hover:text-primary transition-all duration-300">
+                            View All Stories
+                            <ArrowUpRight className="w-3.5 h-3.5 md:w-4 md:h-4 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                        </Link>
+                    </div>
                 </div>
 
                 {/* 5 Cards in a Row */}

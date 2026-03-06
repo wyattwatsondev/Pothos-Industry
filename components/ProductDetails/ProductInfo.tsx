@@ -115,6 +115,18 @@ export function ProductInfo({ product }: ProductInfoProps) {
                 </Button>
             </div>
 
+            <Button
+                variant="ghost"
+                onClick={() => {
+                    const reviewSection = document.getElementById('review-section');
+                    reviewSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="text-primary text-[9px] sm:text-[11px] font-black uppercase tracking-widest hover:bg-primary/5 h-9 sm:h-10 rounded-full w-full border border-primary/20"
+            >
+                <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-2 fill-primary" />
+                Add Your Review
+            </Button>
+
             <p className="text-gray-400 text-[10px] underline cursor-pointer">Delivery: TBC</p>
         </div>
     )
