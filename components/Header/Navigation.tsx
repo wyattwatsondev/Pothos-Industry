@@ -68,32 +68,6 @@ const navigationItems = [
         ]
       },
       { name: 'Swimming Diving Suit', href: '/products?category=Mens&subCategory=Swimming%20Diving%20Suit' },
-      {
-        name: 'Gloves Collection',
-        href: '/products?category=Mens&subCategory=Gloves%20Collection',
-        items: [
-          { name: 'Cycling Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=Cycling%20Gloves' },
-          { name: 'Driving Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=Driving%20Gloves' },
-          { name: 'Golf Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=Golf%20Gloves' },
-          { name: 'Mechanics Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=Mechanics%20Gloves' },
-          { name: 'TPR Impact Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=TPR%20Impact%20Gloves' },
-          { name: 'Weightlifting Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=Weightlifting%20Gloves' },
-          { name: 'Working Gloves', href: '/products?category=Mens&subCategory=Gloves%20Collection&itemType=Working%20Gloves' },
-        ]
-      },
-      {
-        name: 'Accessories',
-        href: '/products?category=Mens&subCategory=Accessories',
-        items: [
-          { name: 'Backpack', href: '/products?category=Mens&subCategory=Accessories&itemType=Backpack' },
-          { name: 'Bracelets', href: '/products?category=Mens&subCategory=Accessories&itemType=Bracelets' },
-          { name: 'Face Mask', href: '/products?category=Mens&subCategory=Accessories&itemType=Face%20Mask' },
-          { name: 'Hand Bags', href: '/products?category=Mens&subCategory=Accessories&itemType=Hand%20Bags' },
-          { name: 'Hats & Caps', href: '/products?category=Mens&subCategory=Accessories&itemType=Hats%20%26%20Caps' },
-          { name: 'Night Masks', href: '/products?category=Mens&subCategory=Accessories&itemType=Night%20Masks' },
-          { name: 'Wallets', href: '/products?category=Mens&subCategory=Accessories&itemType=Wallets' },
-        ]
-      },
     ]
   },
   {
