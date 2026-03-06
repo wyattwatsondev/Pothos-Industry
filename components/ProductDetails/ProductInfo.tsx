@@ -69,8 +69,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
             <div className="space-y-2">
                 <h3 className="font-bold text-sm text-[#1A1A1A]">Description:</h3>
-                <p className="text-gray-500 text-sm leading-relaxed line-clamp-3">
-                    {product.description} <button className="text-black font-bold">See More...</button>
+                <p className="text-gray-500 text-sm leading-relaxed whitespace-pre-wrap">
+                    {product.description}
                 </p>
             </div>
 
