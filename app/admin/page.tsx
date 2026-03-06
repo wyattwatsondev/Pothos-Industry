@@ -55,6 +55,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+import Link from 'next/link';
 
 const CATEGORY_HIERARCHY: Record<string, Record<string, string[]>> = {
     "Mens": {
@@ -122,28 +123,30 @@ interface Order {
 
 function AdminSidebar({ activeTab, setActiveTab }: { activeTab: string; setActiveTab: (tab: string) => void }) {
     return (
-        <div className="flex flex-col h-full bg-black text-white">
+        <div className="flex flex-col h-full bg-[#1a1a1a] text-white">
             <div className="p-6">
-                <div className="flex items-center space-x-2 mb-12">
-                    <Image src="/logo.png" alt="Logo" width={180} height={70} className="h-14 w-auto object-contain brightness-0 invert" />
+                <div className="flex items-center space-x-2 mb-10">
+                    <Link href="/">
+                        <Image src="/logo.png" alt="Logo" width={160} height={60} className="h-12 w-auto object-contain brightness-0 invert" />
+                    </Link>
                 </div>
 
-                <nav className="space-y-2">
-                    <p className="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em] mb-6 px-3">Management</p>
-                    <SidebarLink id="products" icon={<ShoppingBag size={18} />} label="Product Catalog" activeTab={activeTab} setActiveTab={setActiveTab} />
+                <nav className="space-y-1.5">
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-[0.3em] mb-4 px-3">Management</p>
+                    <SidebarLink id="products" icon={<ShoppingBag size={18} />} label="Product " activeTab={activeTab} setActiveTab={setActiveTab} />
                     <SidebarLink id="orders" icon={<ShoppingCart size={18} />} label="Order Requests" activeTab={activeTab} setActiveTab={setActiveTab} />
                 </nav>
             </div>
 
-            <div className="mt-auto p-6 border-t border-white/10">
+            <div className="mt-auto p-6 border-t border-white/5">
                 <div className="flex items-center space-x-3">
-                    <Avatar className="h-10 w-10 border-2 border-white/20">
+                    <Avatar className="h-10 w-10 border-2 border-white/10">
                         <AvatarImage src="/ProductImages/85.png" />
-                        <AvatarFallback className="bg-white text-black font-black">AD</AvatarFallback>
+                        <AvatarFallback className="bg-white text-black font-bold">AD</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                        <p className="text-xs font-black truncate uppercase tracking-wider">Administrator</p>
-                        <p className="text-[10px] text-gray-400 truncate font-bold">admin@pothosindustry.com</p>
+                        <p className="text-xs font-bold truncate uppercase tracking-wider">Administrator</p>
+                        <p className="text-[10px] text-gray-400 truncate font-semibold">admin@pothosindustry.com</p>
                     </div>
                 </div>
             </div>
@@ -350,14 +353,16 @@ export default function AdminPage() {
     return (
         <div className="flex min-h-screen bg-white flex-col lg:flex-row" style={{ fontFamily: 'var(--font-geist), sans-serif' }}>
             {/* Desktop Sidebar */}
-            <aside className="w-64 border-r border-charcoal/5 bg-black flex flex-col hidden lg:flex fixed inset-y-0 z-40">
+            <aside className="w-60 border-r border-charcoal/5 bg-[#1a1a1a] flex flex-col hidden lg:flex fixed inset-y-0 z-40">
                 <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
             </aside>
 
             {/* Mobile Header */}
-            <header className="lg:hidden h-20 bg-black border-b border-white/10 flex items-center justify-between px-6 sticky top-0 z-50">
+            <header className="lg:hidden h-20 bg-[#1a1a1a] border-b border-white/10 flex items-center justify-between px-6 sticky top-0 z-50">
                 <div className="flex items-center space-x-2">
-                    <Image src="/logo.png" alt="Logo" width={120} height={40} className="h-10 w-auto object-contain brightness-0 invert" />
+                    <Link href="/">
+                        <Image src="/logo.png" alt="Logo" width={120} height={40} className="h-10 w-auto object-contain brightness-0 invert" />
+                    </Link>
                 </div>
                 <Sheet>
                     <SheetTrigger asChild>
@@ -365,14 +370,14 @@ export default function AdminPage() {
                             <Menu size={24} />
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="left" className="p-0 w-64 border-none">
+                    <SheetContent side="left" className="p-0 w-60 border-none">
                         <AdminSidebar activeTab={activeTab} setActiveTab={setActiveTab} />
                     </SheetContent>
                 </Sheet>
             </header>
 
             {/* Main Content */}
-            <div className="flex-1 flex flex-col min-w-0 lg:pl-64">
+            <div className="flex-1 flex flex-col min-w-0 lg:pl-60">
                 <main className="p-4 md:p-10 space-y-8 overflow-y-auto min-h-screen">
 
                     {/* ─── PRODUCTS TAB ─── */}
@@ -381,76 +386,76 @@ export default function AdminPage() {
                             {/* Header */}
                             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
                                 <div>
-                                    <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-charcoal uppercase">Product Catalog</h1>
-                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Manage your inventory & listings</p>
+                                    <h1 className="text-xl md:text-3xl font-bold tracking-tighter text-charcoal uppercase">Product Catalog</h1>
+                                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-1">Manage your inventory & listings</p>
                                 </div>
                                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                                     <DialogTrigger asChild>
                                         <Button
                                             onClick={() => { setEditingId(null); setFormData({ name: '', price: '', image: '', description: '', category: '', subCategory: '', itemType: '', sizes: '' }); }}
-                                            className="bg-black text-white hover:bg-charcoal rounded-2xl px-8 py-6 font-black uppercase tracking-widest text-[10px] flex items-center gap-3 transition-all hover:scale-105 active:scale-95"
+                                            className="bg-[#1a1a1a] text-white hover:bg-neutral-800 rounded-xl sm:rounded-2xl px-2 sm:px-6 py-3.5 sm:py-4 h-8 sm:h-10 font-bold uppercase tracking-widest text-[8px] sm:text-[10px] flex items-center gap-2 sm:gap-3 transition-all hover:scale-102 active:scale-98"
                                         >
                                             <Plus size={16} />
                                             <span>Add Product</span>
                                         </Button>
                                     </DialogTrigger>
-                                    <DialogContent className="w-[95vw] max-w-[700px] rounded-[3rem] p-0 overflow-hidden border-none max-h-[95vh] overflow-y-auto">
-                                        <DialogHeader className="p-8 md:p-12 bg-black border-b border-white/10">
-                                            <DialogTitle className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">
+                                    <DialogContent className="w-[98vw] max-w-[500px] rounded-2xl p-0 overflow-hidden border-none max-h-[90vh] flex flex-col">
+                                        <DialogHeader className="p-5 sm:p-7 md:p-10 bg-white border-b border-black/5 flex-shrink-0">
+                                            <DialogTitle className="text-xl sm:text-2xl md:text-xl font-bold text-black uppercase tracking-tighter">
                                                 {editingId ? 'Edit Product' : 'Registry New Product'}
                                             </DialogTitle>
-                                            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2">Enter product details for the catalog</p>
+                                            <p className="text-[8px] sm:text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-1 sm:mt-2">Enter product details for the catalog</p>
                                         </DialogHeader>
-                                        <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-8 bg-white">
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Product Name</label>
-                                                    <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Silk Summer Dress" required className="rounded-2xl h-14 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-sm font-bold transition-all" />
+                                        <form onSubmit={handleSubmit} className="p-5 sm:p-7 md:p-10 space-y-4 sm:space-y-6 bg-white overflow-y-auto no-scrollbar">
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+                                                <div className="space-y-1.5 sm:space-y-2">
+                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Product Name</label>
+                                                    <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Silk Summer Dress" required className="rounded-xl h-10 sm:h-12 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-xs sm:text-sm font-semibold transition-all" />
                                                 </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Price ($)</label>
-                                                    <Input type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} placeholder="0.00" required className="rounded-2xl h-14 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-sm font-bold transition-all" />
+                                                <div className="space-y-1.5 sm:space-y-2">
+                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Price ($)</label>
+                                                    <Input type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} placeholder="0.00" required className="rounded-xl h-10 sm:h-12 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-xs sm:text-sm font-semibold transition-all" />
                                                 </div>
-                                                <div className="space-y-2">
-                                                    <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Sizes (comma separated)</label>
-                                                    <Input value={formData.sizes} onChange={(e) => setFormData({ ...formData, sizes: e.target.value })} placeholder="S, M, L, XL" className="rounded-2xl h-14 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-sm font-bold transition-all" />
+                                                <div className="space-y-1.5 sm:space-y-2">
+                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Sizes (comma separated)</label>
+                                                    <Input value={formData.sizes} onChange={(e) => setFormData({ ...formData, sizes: e.target.value })} placeholder="S, M, L, XL" className="rounded-xl h-10 sm:h-12 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-xs sm:text-sm font-semibold transition-all" />
                                                 </div>
-                                                <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-charcoal/5 pt-8">
-                                                    <div className="space-y-2">
-                                                        <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Collection</label>
-                                                        <select className="w-full h-12 px-4 rounded-2xl border-2 border-charcoal/5 bg-gray-50 text-[10px] font-black tracking-widest uppercase outline-none appearance-none cursor-pointer" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value, subCategory: '', itemType: '' })} required>
+                                                <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 border-t border-charcoal/5 pt-5 sm:pt-6">
+                                                    <div className="space-y-1.5 sm:space-y-2">
+                                                        <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Collection</label>
+                                                        <select className="w-full h-10 sm:h-11 px-3 sm:px-4 rounded-xl border-2 border-charcoal/5 bg-gray-50 text-[9px] sm:text-[10px] font-bold tracking-widest uppercase outline-none appearance-none cursor-pointer" value={formData.category} onChange={(e) => setFormData({ ...formData, category: e.target.value, subCategory: '', itemType: '' })} required>
                                                             <option value="">SELECT</option>
                                                             {Object.keys(CATEGORY_HIERARCHY).map(cat => (<option key={cat} value={cat}>{cat.toUpperCase()}</option>))}
                                                         </select>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Category</label>
-                                                        <select className="w-full h-12 px-4 rounded-2xl border-2 border-charcoal/5 bg-gray-50 text-[10px] font-black tracking-widest uppercase outline-none appearance-none cursor-pointer disabled:opacity-30" value={formData.subCategory} onChange={(e) => setFormData({ ...formData, subCategory: e.target.value, itemType: '' })} required disabled={!formData.category}>
+                                                    <div className="space-y-1.5 sm:space-y-2">
+                                                        <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Category</label>
+                                                        <select className="w-full h-10 sm:h-11 px-3 sm:px-4 rounded-xl border-2 border-charcoal/5 bg-gray-50 text-[9px] sm:text-[10px] font-bold tracking-widest uppercase outline-none appearance-none cursor-pointer disabled:opacity-30" value={formData.subCategory} onChange={(e) => setFormData({ ...formData, subCategory: e.target.value, itemType: '' })} required disabled={!formData.category}>
                                                             <option value="">SELECT</option>
                                                             {formData.category && Object.keys(CATEGORY_HIERARCHY[formData.category] || {}).map(sub => (<option key={sub} value={sub}>{sub.toUpperCase()}</option>))}
                                                         </select>
                                                     </div>
-                                                    <div className="space-y-2">
-                                                        <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Type</label>
-                                                        <select className="w-full h-12 px-4 rounded-2xl border-2 border-charcoal/5 bg-gray-50 text-[10px] font-black tracking-widest uppercase outline-none appearance-none cursor-pointer disabled:opacity-30" value={formData.itemType} onChange={(e) => setFormData({ ...formData, itemType: e.target.value })} required disabled={!formData.subCategory}>
+                                                    <div className="space-y-1.5 sm:space-y-2">
+                                                        <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Type</label>
+                                                        <select className="w-full h-10 sm:h-11 px-3 sm:px-4 rounded-xl border-2 border-charcoal/5 bg-gray-50 text-[9px] sm:text-[10px] font-bold tracking-widest uppercase outline-none appearance-none cursor-pointer disabled:opacity-30" value={formData.itemType} onChange={(e) => setFormData({ ...formData, itemType: e.target.value })} required disabled={!formData.subCategory}>
                                                             <option value="">SELECT</option>
                                                             {formData.category && formData.subCategory && (CATEGORY_HIERARCHY[formData.category]?.[formData.subCategory] || []).map(item => (<option key={item} value={item}>{item.toUpperCase()}</option>))}
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div className="md:col-span-2 space-y-3 pt-4 border-t border-charcoal/5">
-                                                    <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Product Image</label>
-                                                    <Input type="file" accept="image/*" onChange={(e) => { const file = e.target.files?.[0]; if (file) { const reader = new FileReader(); reader.onloadend = () => { setFormData({ ...formData, image: reader.result as string }); }; reader.readAsDataURL(file); } }} className="rounded-2xl h-14 pt-3 file:bg-black file:text-white file:rounded-xl file:border-none file:px-4 file:py-1 file:text-[9px] file:font-black file:uppercase file:tracking-widest file:mr-4 border-2 border-charcoal/5 bg-gray-50" required={!editingId} />
-                                                    {formData.image && (<div className="mt-2 h-16 w-16 rounded-lg overflow-hidden border"><img src={formData.image} alt="Preview" className="h-full w-full object-cover" /></div>)}
+                                                <div className="md:col-span-2 space-y-2 sm:space-y-3 pt-3 sm:pt-4 border-t border-charcoal/5">
+                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Product Image</label>
+                                                    <Input type="file" accept="image/*" onChange={(e) => { const file = e.target.files?.[0]; if (file) { const reader = new FileReader(); reader.onloadend = () => { setFormData({ ...formData, image: reader.result as string }); }; reader.readAsDataURL(file); } }} className="rounded-xl h-10 sm:h-12 pt-1.5 sm:pt-2 file:bg-[#1a1a1a] file:text-white file:rounded-lg file:border-none file:px-3 sm:file:px-4 file:py-1 file:text-[8px] sm:file:text-[9px] file:font-bold file:uppercase file:tracking-widest file:mr-3 border-2 border-charcoal/5 bg-gray-50" required={!editingId} />
+                                                    {formData.image && (<div className="mt-2 h-12 w-12 sm:h-14 sm:w-14 rounded-lg overflow-hidden border"><img src={formData.image} alt="Preview" className="h-full w-full object-cover" /></div>)}
                                                 </div>
-                                                <div className="md:col-span-2 space-y-3">
-                                                    <label className="text-[10px] font-black text-charcoal uppercase tracking-widest">Description</label>
-                                                    <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Detailed product story..." required className="w-full h-32 md:h-40 p-6 text-sm font-bold rounded-[2rem] border-2 border-charcoal/5 bg-gray-50 focus:bg-white outline-none transition-all resize-none" />
+                                                <div className="md:col-span-2 space-y-2 sm:space-y-3">
+                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Description</label>
+                                                    <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} placeholder="Detailed product story..." required className="w-full h-24 sm:h-32 p-4 sm:p-5 text-xs sm:text-sm font-semibold rounded-xl sm:rounded-2xl border-2 border-charcoal/5 bg-gray-50 focus:bg-white outline-none transition-all resize-none" />
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                                                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1 h-14 rounded-2xl border-2 border-charcoal/5 font-black uppercase tracking-widest text-[10px] hover:bg-gray-50">Cancel</Button>
-                                                <Button type="submit" disabled={isSubmitting} className="flex-1 h-14 rounded-2xl bg-black text-white hover:bg-charcoal font-black uppercase tracking-widest text-[10px]">
+                                            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-3 mb-2">
+                                                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1 h-8 sm:h-10 rounded-xl border-2 border-charcoal/5 font-bold tracking-widest text-[9px] sm:text-[10px] hover:bg-gray-100 hover:text-black">Cancel</Button>
+                                                <Button type="submit" disabled={isSubmitting} className="flex-1 h-8 sm:h-10 rounded-xl bg-[#1a1a1a] text-white hover:bg-neutral-800 font-bold tracking-widest text-[9px] sm:text-[10px]">
                                                     {isSubmitting ? (<div className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin text-white" /><span>SAVING...</span></div>) : (editingId ? 'Save Changes' : 'Add to Catalog')}
                                                 </Button>
                                             </div>
@@ -460,26 +465,27 @@ export default function AdminPage() {
                             </div>
 
                             {/* Product Stat Cards */}
-                            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                            <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                                 <Card
                                     onClick={() => setCategoryFilter('all')}
-                                    className={`rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === 'all' ? 'border-black bg-black text-white' : 'border-charcoal/10 bg-white hover:border-charcoal/30'}`}
+                                    className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === 'all' ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white' : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
                                 >
-                                    <CardContent className="p-6 text-center space-y-2">
-                                        <Package size={20} className={`mx-auto ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
-                                        <p className={`text-3xl font-black tracking-tighter ${categoryFilter === 'all' ? 'text-white' : 'text-charcoal'}`}>{products.length}</p>
-                                        <p className={`text-[9px] font-black uppercase tracking-widest ${categoryFilter === 'all' ? 'text-gray-300' : 'text-gray-400'}`}>All Products</p>
+                                    <CardContent className="p-3 sm:p-4 text-center space-y-1 sm:space-y-1.5">
+                                        <Package size={16} className={`mx-auto sm:hidden ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
+                                        <Package size={18} className={`mx-auto hidden sm:block ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
+                                        <p className={`text-xl sm:text-2xl font-bold tracking-tighter ${categoryFilter === 'all' ? 'text-white' : 'text-charcoal'}`}>{products.length}</p>
+                                        <p className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-widest ${categoryFilter === 'all' ? 'text-gray-300' : 'text-gray-400'}`}>All Products</p>
                                     </CardContent>
                                 </Card>
                                 {productCategoryCounts.map(cat => (
                                     <Card
                                         key={cat.name}
                                         onClick={() => setCategoryFilter(cat.name)}
-                                        className={`rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === cat.name ? 'border-black bg-black text-white' : 'border-charcoal/10 bg-white hover:border-charcoal/30'}`}
+                                        className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === cat.name ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white' : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
                                     >
-                                        <CardContent className="p-6 text-center space-y-2">
-                                            <p className={`text-3xl font-black tracking-tighter ${categoryFilter === cat.name ? 'text-white' : 'text-charcoal'}`}>{cat.count}</p>
-                                            <p className={`text-[9px] font-black uppercase tracking-widest leading-tight ${categoryFilter === cat.name ? 'text-gray-300' : 'text-gray-400'}`}>{cat.name}</p>
+                                        <CardContent className="p-3 sm:p-4 text-center space-y-1 sm:space-y-1.5">
+                                            <p className={`text-xl sm:text-2xl font-bold tracking-tighter ${categoryFilter === cat.name ? 'text-white' : 'text-charcoal'}`}>{cat.count}</p>
+                                            <p className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-widest leading-tight ${categoryFilter === cat.name ? 'text-gray-300' : 'text-gray-400'}`}>{cat.name}</p>
                                         </CardContent>
                                     </Card>
                                 ))}
@@ -493,11 +499,11 @@ export default function AdminPage() {
                                         placeholder="Search products..."
                                         value={productSearch}
                                         onChange={(e) => setProductSearch(e.target.value)}
-                                        className="pl-12 h-12 rounded-2xl border-2 border-charcoal/10 bg-gray-50 text-sm font-bold focus:border-charcoal/30"
+                                        className="pl-10 sm:pl-12 h-10 sm:h-11 rounded-xl border-2 border-charcoal/5 bg-gray-50 text-xs sm:text-sm font-semibold focus:border-charcoal/20"
                                     />
                                 </div>
                                 {categoryFilter !== 'all' && (
-                                    <Badge className="bg-black text-white border-none rounded-full px-4 py-2 font-black text-[10px] uppercase tracking-widest">
+                                    <Badge className="bg-[#1a1a1a] text-white border-none rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-widest">
                                         {categoryFilter}
                                         <button onClick={() => setCategoryFilter('all')} className="ml-2 text-gray-400 hover:text-white">×</button>
                                     </Badge>
@@ -509,11 +515,11 @@ export default function AdminPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="border-b-2 border-charcoal/5 hover:bg-transparent">
-                                            <TableHead className="pl-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] w-16">IMG</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Product</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Category</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Price</TableHead>
-                                            <TableHead className="py-5 pr-8 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Actions</TableHead>
+                                            <TableHead className="pl-6 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] w-16">IMG</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Product</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Category</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Price</TableHead>
+                                            <TableHead className="py-4 pr-6 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -523,28 +529,28 @@ export default function AdminPage() {
                                             <TableRow><TableCell colSpan={5} className="text-center py-20 text-[10px] font-black text-gray-300 uppercase tracking-widest">No products found</TableCell></TableRow>
                                         ) : filteredProducts.map((product) => (
                                             <TableRow key={product.id} className="border-b border-charcoal/5 hover:bg-gray-50/50 transition-colors">
-                                                <TableCell className="pl-8 py-5">
-                                                    <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-charcoal/5 overflow-hidden flex items-center justify-center">
-                                                        {product.image ? <img src={product.image} alt={product.name} className="w-full h-full object-cover" /> : <Package size={20} className="text-gray-300" />}
+                                                <TableCell className="pl-4 sm:pl-6 py-3 sm:py-4">
+                                                    <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gray-50 border border-charcoal/5 overflow-hidden flex items-center justify-center">
+                                                        {product.image ? <img src={product.image} alt={product.name} className="w-full h-full object-cover" /> : <Package size={16} className="text-gray-300" />}
                                                     </div>
                                                 </TableCell>
-                                                <TableCell className="py-5">
-                                                    <p className="text-sm font-black text-charcoal uppercase tracking-tight">{product.name}</p>
-                                                    {product.subCategory && <p className="text-[10px] font-bold text-gray-400 mt-1 uppercase tracking-widest">{product.subCategory}</p>}
+                                                <TableCell className="py-3 sm:py-4">
+                                                    <p className="text-[11px] sm:text-xs font-bold text-charcoal uppercase tracking-tight">{product.name}</p>
+                                                    {product.subCategory && <p className="text-[8px] sm:text-[9px] font-semibold text-gray-400 mt-0.5 uppercase tracking-widest">{product.subCategory}</p>}
                                                 </TableCell>
-                                                <TableCell className="py-5">
-                                                    <Badge className="bg-gray-50 text-charcoal border border-charcoal/10 rounded-full px-3 py-1 font-black text-[9px] uppercase tracking-widest">{product.category}</Badge>
+                                                <TableCell className="py-3 sm:py-4">
+                                                    <Badge className="bg-gray-50 text-charcoal border border-charcoal/10 rounded-full px-2 sm:px-3 py-0.5 font-bold text-[7px] sm:text-[9px] uppercase tracking-widest">{product.category}</Badge>
                                                 </TableCell>
-                                                <TableCell className="py-5">
-                                                    <p className="text-sm font-black text-charcoal">${product.price.toFixed(2)}</p>
+                                                <TableCell className="py-3 sm:py-4">
+                                                    <p className="text-[11px] sm:text-xs font-bold text-charcoal">${product.price.toFixed(2)}</p>
                                                 </TableCell>
-                                                <TableCell className="pr-8 py-5 text-right">
-                                                    <div className="flex items-center justify-end gap-2">
-                                                        <Button variant="outline" size="sm" onClick={() => handleEdit(product)} className="h-10 w-10 p-0 rounded-xl border-charcoal/10 hover:bg-black hover:text-white hover:border-black transition-all">
-                                                            <Pencil size={14} />
+                                                <TableCell className="pr-4 sm:pr-6 py-3 sm:py-4 text-right">
+                                                    <div className="flex items-center justify-end gap-1.5 sm:gap-2">
+                                                        <Button variant="outline" size="sm" onClick={() => handleEdit(product)} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg border-charcoal/10 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all">
+                                                            <Pencil size={12} className="sm:size-[14px]" />
                                                         </Button>
-                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteClick(product)} className="h-10 w-10 p-0 rounded-xl border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all">
-                                                            <Trash2 size={14} />
+                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteClick(product)} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all">
+                                                            <Trash2 size={12} className="sm:size-[14px]" />
                                                         </Button>
                                                     </div>
                                                 </TableCell>
@@ -561,29 +567,29 @@ export default function AdminPage() {
                         <>
                             {/* Header */}
                             <div>
-                                <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-charcoal uppercase">Order Requests</h1>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">Track and manage customer orders</p>
+                                <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-charcoal uppercase">Order Requests</h1>
+                                <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest mt-1">Track and manage customer orders</p>
                             </div>
 
                             {/* Order Stat Cards */}
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div className="grid grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
                                 {[
-                                    { label: 'Total Orders', value: orderStats.total, icon: <Package size={20} />, key: 'all', color: 'bg-black text-white', activeColor: 'border-black' },
-                                    { label: 'Pending', value: orderStats.pending, icon: <Clock size={20} />, key: 'Pending', color: 'bg-yellow-50', activeColor: 'border-yellow-400' },
-                                    { label: 'Approved', value: orderStats.approved, icon: <CheckCircle size={20} />, key: 'Approved', color: 'bg-blue-50', activeColor: 'border-blue-400' },
-                                    { label: 'Delivered', value: orderStats.delivered, icon: <Truck size={20} />, key: 'Delivered', color: 'bg-green-50', activeColor: 'border-green-400' },
+                                    { label: 'Total', fullLabel: 'Total Orders', value: orderStats.total, icon: <Package size={16} />, key: 'all', color: 'bg-[#1a1a1a] text-white', activeColor: 'border-[#1a1a1a]' },
+                                    { label: 'Pending', fullLabel: 'Pending', value: orderStats.pending, icon: <Clock size={16} />, key: 'Pending', color: 'bg-yellow-50', activeColor: 'border-yellow-400' },
+                                    { label: 'Approved', fullLabel: 'Approved', value: orderStats.approved, icon: <CheckCircle size={16} />, key: 'Approved', color: 'bg-blue-50', activeColor: 'border-blue-400' },
+                                    { label: 'Delivered', fullLabel: 'Delivered', value: orderStats.delivered, icon: <Truck size={16} />, key: 'Delivered', color: 'bg-green-50', activeColor: 'border-green-400' },
                                 ].map((stat) => (
                                     <Card
                                         key={stat.key}
                                         onClick={() => setOrderStatusFilter(stat.key)}
-                                        className={`rounded-2xl border-2 cursor-pointer transition-all duration-200 ${orderStatusFilter === stat.key ? `${stat.activeColor} ${stat.key === 'all' ? 'bg-black' : stat.color}` : 'border-charcoal/10 bg-white hover:border-charcoal/30'}`}
+                                        className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${orderStatusFilter === stat.key ? `${stat.activeColor} ${stat.key === 'all' ? 'bg-[#1a1a1a]' : stat.color}` : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
                                     >
-                                        <CardContent className="p-6 space-y-3">
-                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${stat.key === 'all' && orderStatusFilter === 'all' ? 'text-white' : stat.key === 'Pending' ? 'bg-yellow-100 text-yellow-600' : stat.key === 'Approved' ? 'bg-blue-100 text-blue-600' : stat.key === 'Delivered' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'}`}>
+                                        <CardContent className="p-3 sm:p-6 space-y-1 sm:space-y-3">
+                                            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center ${stat.key === 'all' && orderStatusFilter === 'all' ? 'text-white' : stat.key === 'Pending' ? 'bg-yellow-100 text-yellow-600' : stat.key === 'Approved' ? 'bg-blue-100 text-blue-600' : stat.key === 'Delivered' ? 'bg-green-100 text-green-600' : 'bg-gray-100 text-gray-600'}`}>
                                                 {stat.icon}
                                             </div>
-                                            <p className={`text-3xl font-black tracking-tighter ${stat.key === 'all' && orderStatusFilter === 'all' ? 'text-white' : 'text-charcoal'}`}>{stat.value}</p>
-                                            <p className={`text-[9px] font-black uppercase tracking-widest ${stat.key === 'all' && orderStatusFilter === 'all' ? 'text-gray-300' : 'text-gray-400'}`}>{stat.label}</p>
+                                            <p className={`text-xl sm:text-3xl font-bold tracking-tighter ${stat.key === 'all' && orderStatusFilter === 'all' ? 'text-white' : 'text-charcoal'}`}>{stat.value}</p>
+                                            <p className={`text-[7px] sm:text-[9px] font-bold uppercase tracking-widest ${stat.key === 'all' && orderStatusFilter === 'all' ? 'text-gray-300' : 'text-gray-400'}`}>{stat.label}</p>
                                         </CardContent>
                                     </Card>
                                 ))}
@@ -597,11 +603,11 @@ export default function AdminPage() {
                                         placeholder="Search by name or email..."
                                         value={orderSearch}
                                         onChange={(e) => setOrderSearch(e.target.value)}
-                                        className="pl-12 h-12 rounded-2xl border-2 border-charcoal/10 bg-gray-50 text-sm font-bold focus:border-charcoal/30"
+                                        className="pl-12 h-11 rounded-xl border-2 border-charcoal/5 bg-gray-50 text-sm font-semibold focus:border-charcoal/20"
                                     />
                                 </div>
                                 {orderStatusFilter !== 'all' && (
-                                    <Badge className="bg-black text-white border-none rounded-full px-4 py-2 font-black text-[10px] uppercase tracking-widest">
+                                    <Badge className="bg-[#1a1a1a] text-white border-none rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-widest">
                                         {orderStatusFilter}
                                         <button onClick={() => setOrderStatusFilter('all')} className="ml-2 text-gray-400 hover:text-white">×</button>
                                     </Badge>
@@ -613,12 +619,12 @@ export default function AdminPage() {
                                 <Table>
                                     <TableHeader>
                                         <TableRow className="border-b-2 border-charcoal/5 hover:bg-transparent">
-                                            <TableHead className="pl-8 py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Order ID</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Customer</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Total</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Date</TableHead>
-                                            <TableHead className="py-5 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Status</TableHead>
-                                            <TableHead className="py-5 pr-8 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] text-right">Actions</TableHead>
+                                            <TableHead className="pl-8 py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Order ID</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Customer</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Total</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Date</TableHead>
+                                            <TableHead className="py-4 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em]">Status</TableHead>
+                                            <TableHead className="py-4 pr-8 text-[10px] font-bold text-gray-400 uppercase tracking-[0.2em] text-right">Actions</TableHead>
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
@@ -626,22 +632,22 @@ export default function AdminPage() {
                                             <TableRow><TableCell colSpan={6} className="text-center py-20 text-[10px] font-black text-gray-300 uppercase tracking-widest">No orders found</TableCell></TableRow>
                                         ) : filteredOrders.map((order) => (
                                             <TableRow key={order.id} className="border-b border-charcoal/5 hover:bg-gray-50/50 transition-colors">
-                                                <TableCell className="pl-8 py-5">
-                                                    <p className="text-xs font-black text-charcoal uppercase tracking-tight">#{order.id}</p>
+                                                <TableCell className="pl-8 py-4">
+                                                    <p className="text-xs font-bold text-charcoal uppercase tracking-tight">#{order.id}</p>
                                                 </TableCell>
-                                                <TableCell className="py-5">
-                                                    <p className="text-sm font-black text-charcoal uppercase tracking-tight">{order.firstName} {order.lastName}</p>
-                                                    <p className="text-[10px] font-bold text-gray-400 mt-0.5">{order.email}</p>
+                                                <TableCell className="py-4">
+                                                    <p className="text-sm font-bold text-charcoal uppercase tracking-tight">{order.firstName} {order.lastName}</p>
+                                                    <p className="text-[10px] font-semibold text-gray-400 mt-0.5">{order.email}</p>
                                                 </TableCell>
-                                                <TableCell className="py-5">
-                                                    <p className="text-sm font-black text-charcoal">${order.total.toFixed(2)}</p>
+                                                <TableCell className="py-4">
+                                                    <p className="text-sm font-bold text-charcoal">${order.total.toFixed(2)}</p>
                                                 </TableCell>
-                                                <TableCell className="py-5">
-                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
+                                                <TableCell className="py-4">
+                                                    <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
                                                 </TableCell>
-                                                <TableCell className="py-5">
+                                                <TableCell className="py-4">
                                                     <select
-                                                        className={`h-9 px-3 rounded-xl text-[10px] font-black uppercase tracking-widest border-none outline-none cursor-pointer ${order.status === 'Pending' ? 'bg-yellow-50 text-yellow-600' : order.status === 'Approved' ? 'bg-blue-50 text-blue-600' : order.status === 'Delivered' ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-600'}`}
+                                                        className={`h-8 px-3 rounded-lg text-[10px] font-bold uppercase tracking-widest border-none outline-none cursor-pointer ${order.status === 'Pending' ? 'bg-yellow-50 text-yellow-600' : order.status === 'Approved' ? 'bg-blue-50 text-blue-600' : order.status === 'Delivered' ? 'bg-green-50 text-green-600' : 'bg-gray-100 text-gray-600'}`}
                                                         value={order.status}
                                                         onChange={(e) => handleUpdateOrderStatus(order.id, e.target.value)}
                                                     >
@@ -651,12 +657,12 @@ export default function AdminPage() {
                                                         <option value="Cancelled">Cancelled</option>
                                                     </select>
                                                 </TableCell>
-                                                <TableCell className="pr-8 py-5 text-right">
+                                                <TableCell className="pr-8 py-4 text-right">
                                                     <div className="flex items-center justify-end gap-2">
-                                                        <Button variant="outline" size="sm" onClick={() => { setSelectedOrder(order); setIsOrderDialogOpen(true); }} className="h-9 px-4 rounded-xl font-black text-[10px] uppercase tracking-widest border-charcoal/10 hover:bg-black hover:text-white hover:border-black transition-all">
+                                                        <Button variant="outline" size="sm" onClick={() => { setSelectedOrder(order); setIsOrderDialogOpen(true); }} className="h-8 px-4 rounded-lg font-bold text-[10px] uppercase tracking-widest border-charcoal/10 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all">
                                                             Details
                                                         </Button>
-                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteOrderClick(order)} className="h-9 w-9 p-0 rounded-xl border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all">
+                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteOrderClick(order)} className="h-8 w-8 p-0 rounded-lg border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all">
                                                             <Trash2 size={14} />
                                                         </Button>
                                                     </div>
@@ -674,73 +680,73 @@ export default function AdminPage() {
             {/* Order Details Modal */}
             <Dialog open={isOrderDialogOpen} onOpenChange={setIsOrderDialogOpen}>
                 <DialogContent className="max-w-3xl rounded-[3rem] p-0 overflow-hidden border-none">
-                    <DialogHeader className="p-8 md:p-12 bg-black border-b border-white/10">
+                    <DialogHeader className="p-5 sm:p-8 md:p-12 bg-black border-b border-white/10 flex-shrink-0">
                         <div className="flex justify-between items-start">
                             <div>
-                                <DialogTitle className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">Order Details</DialogTitle>
-                                <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-2">Reference #{selectedOrder?.id}</p>
+                                <DialogTitle className="text-xl sm:text-2xl md:text-3xl font-black text-white uppercase tracking-tighter">Order Details</DialogTitle>
+                                <p className="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1 sm:mt-2">Reference #{selectedOrder?.id}</p>
                             </div>
                             {selectedOrder && (
-                                <Badge className={`rounded-full px-4 py-2 font-black text-[10px] uppercase tracking-widest border-none ${selectedOrder.status === 'Pending' ? 'bg-yellow-500 text-white' : selectedOrder.status === 'Approved' ? 'bg-blue-500 text-white' : selectedOrder.status === 'Delivered' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}`}>
+                                <Badge className={`rounded-full px-3 sm:px-4 py-1.5 sm:py-2 font-black text-[8px] sm:text-[10px] uppercase tracking-widest border-none ${selectedOrder.status === 'Pending' ? 'bg-yellow-500 text-white' : selectedOrder.status === 'Approved' ? 'bg-blue-500 text-white' : selectedOrder.status === 'Delivered' ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'}`}>
                                     {selectedOrder.status}
                                 </Badge>
                             )}
                         </div>
                     </DialogHeader>
                     {selectedOrder && (
-                        <div className="p-8 md:p-12 space-y-10 bg-white max-h-[70vh] overflow-y-auto">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                                <div className="space-y-4">
-                                    <h3 className="text-[10px] font-black text-charcoal uppercase tracking-[0.2em] border-b border-charcoal/5 pb-2">Customer Information</h3>
+                        <div className="p-5 sm:p-8 md:p-12 space-y-6 sm:space-y-10 bg-white flex-1 overflow-y-auto no-scrollbar">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10">
+                                <div className="space-y-3 sm:space-y-4">
+                                    <h3 className="text-[9px] sm:text-[10px] font-black text-charcoal uppercase tracking-[0.2em] border-b border-charcoal/5 pb-2">Customer Information</h3>
                                     <div className="space-y-1">
-                                        <p className="text-sm font-black text-charcoal uppercase">{selectedOrder.firstName} {selectedOrder.lastName}</p>
-                                        <p className="text-xs font-bold text-gray-400">{selectedOrder.email}</p>
-                                        <p className="text-xs font-bold text-gray-400">{selectedOrder.phone}</p>
+                                        <p className="text-[13px] sm:text-sm font-black text-charcoal uppercase">{selectedOrder.firstName} {selectedOrder.lastName}</p>
+                                        <p className="text-[11px] sm:text-xs font-bold text-gray-400">{selectedOrder.email}</p>
+                                        <p className="text-[11px] sm:text-xs font-bold text-gray-400">{selectedOrder.phone}</p>
                                     </div>
                                 </div>
-                                <div className="space-y-4">
-                                    <h3 className="text-[10px] font-black text-charcoal uppercase tracking-[0.2em] border-b border-charcoal/5 pb-2">Shipping Destination</h3>
+                                <div className="space-y-3 sm:space-y-4">
+                                    <h3 className="text-[9px] sm:text-[10px] font-black text-charcoal uppercase tracking-[0.2em] border-b border-charcoal/5 pb-2">Shipping Destination</h3>
                                     <div className="space-y-1">
-                                        <p className="text-sm font-black text-charcoal uppercase">{selectedOrder.address}</p>
-                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-tight">{selectedOrder.city}, {selectedOrder.postalCode}</p>
-                                        <p className="text-xs font-bold text-gray-400 uppercase tracking-tight">{selectedOrder.country}</p>
+                                        <p className="text-[13px] sm:text-sm font-black text-charcoal uppercase">{selectedOrder.address}</p>
+                                        <p className="text-[11px] sm:text-xs font-bold text-gray-400 uppercase tracking-tight">{selectedOrder.city}, {selectedOrder.postalCode}</p>
+                                        <p className="text-[11px] sm:text-xs font-bold text-gray-400 uppercase tracking-tight">{selectedOrder.country}</p>
                                     </div>
                                 </div>
                             </div>
-                            <div className="space-y-6">
-                                <h3 className="text-[10px] font-black text-charcoal uppercase tracking-[0.2em] border-b border-charcoal/5 pb-2">Order Items</h3>
-                                <div className="space-y-4">
+                            <div className="space-y-4 sm:space-y-6">
+                                <h3 className="text-[9px] sm:text-[10px] font-black text-charcoal uppercase tracking-[0.2em] border-b border-charcoal/5 pb-2">Order Items</h3>
+                                <div className="space-y-3 sm:space-y-4">
                                     {Array.isArray(selectedOrder.items) && selectedOrder.items.map((item: any, idx: number) => (
-                                        <div key={idx} className="flex justify-between items-center py-4 border-b border-charcoal/5 last:border-0">
-                                            <div className="flex items-center gap-4">
-                                                <div className="w-14 h-14 rounded-2xl bg-gray-50 border border-charcoal/5 flex items-center justify-center overflow-hidden">
-                                                    {item.image ? <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-multiply" /> : <Package size={16} className="text-gray-300" />}
+                                        <div key={idx} className="flex justify-between items-center py-3 sm:py-4 border-b border-charcoal/5 last:border-0">
+                                            <div className="flex items-center gap-3 sm:gap-4">
+                                                <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl sm:rounded-2xl bg-gray-50 border border-charcoal/5 flex items-center justify-center overflow-hidden">
+                                                    {item.image ? <img src={item.image} alt={item.name} className="w-full h-full object-contain mix-blend-multiply" /> : <Package size={14} className="text-gray-300" />}
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-black text-charcoal uppercase">{item.name}</p>
-                                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-1">QTY: {item.quantity || 1} • SIZE: {item.size || item.selectedSize || 'N/A'}</p>
+                                                    <p className="text-[12px] sm:text-sm font-black text-charcoal uppercase">{item.name}</p>
+                                                    <p className="text-[8px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest mt-0.5 sm:mt-1">QTY: {item.quantity || 1} • SIZE: {item.size || item.selectedSize || 'N/A'}</p>
                                                 </div>
                                             </div>
-                                            <p className="text-sm font-black text-charcoal">${(item.price * (item.quantity || 1)).toFixed(2)}</p>
+                                            <p className="text-[12px] sm:text-sm font-black text-charcoal">${(item.price * (item.quantity || 1)).toFixed(2)}</p>
                                         </div>
                                     ))}
                                 </div>
                             </div>
-                            <div className="bg-gray-50 rounded-[2rem] p-8 space-y-3">
-                                <div className="flex justify-between text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                            <div className="bg-gray-50 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 space-y-2 sm:space-y-3">
+                                <div className="flex justify-between text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest">
                                     <span>Subtotal</span><span>${selectedOrder.total.toFixed(2)}</span>
                                 </div>
-                                <div className="flex justify-between text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-charcoal/5 pb-3">
+                                <div className="flex justify-between text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-charcoal/5 pb-2 sm:pb-3">
                                     <span>Shipping</span><span>FREE</span>
                                 </div>
-                                <div className="flex justify-between text-xl font-black text-charcoal uppercase tracking-tighter pt-2">
+                                <div className="flex justify-between text-lg sm:text-xl font-black text-charcoal uppercase tracking-tighter pt-1 sm:pt-2">
                                     <span>Total</span><span>${selectedOrder.total.toFixed(2)}</span>
                                 </div>
                             </div>
                         </div>
                     )}
-                    <div className="p-8 bg-white border-t border-charcoal/5 flex justify-end">
-                        <Button onClick={() => setIsOrderDialogOpen(false)} className="h-14 px-10 rounded-2xl bg-black text-white hover:bg-charcoal font-black uppercase tracking-widest text-[10px]">
+                    <div className="p-5 sm:p-8 bg-white border-t border-charcoal/5 flex justify-end flex-shrink-0">
+                        <Button onClick={() => setIsOrderDialogOpen(false)} className="w-full sm:w-auto h-11 sm:h-14 px-10 rounded-xl sm:rounded-2xl bg-black text-white hover:bg-charcoal font-black uppercase tracking-widest text-[9px] sm:text-[10px]">
                             Close
                         </Button>
                     </div>

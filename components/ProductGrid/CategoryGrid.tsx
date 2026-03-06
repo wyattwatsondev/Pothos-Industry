@@ -7,7 +7,7 @@ import { motion } from 'framer-motion'
 
 export function CategoryGrid() {
   return (
-    <section className="w-full py-8 sm:py-16 px-4 sm:px-6 lg:px-8 mx-auto max-w-5xl">
+    <section className="w-full py-8 sm:py-16 px-2 sm:px-6 lg:px-8 mx-auto max-w-5xl">
       <SectionHeading title="Shop by Category" subtitle="Explore our premium collection across specialized textile and leather categories" />
 
       <motion.div
@@ -15,7 +15,7 @@ export function CategoryGrid() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, staggerChildren: 0.1 }}
-        className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-8 lg:gap-10 mt-12"
+        className="grid grid-cols-4 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-8 lg:gap-10 mt-8 sm:mt-12"
       >
         {categories.categories.map((category) => (
           <motion.div

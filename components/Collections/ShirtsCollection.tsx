@@ -17,11 +17,12 @@ export function ShirtsCollection({ products }: ShirtsCollectionProps) {
       <div className="max-w-7xl mx-auto">
         <SectionHeading title="Textile Jackets" subtitle="Premium technical outerwear for every environment" />
 
-        {/* 4-col grid, 2 rows = 8 products */}
-        <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {products.map((product) => (
+        {/* 5-col grid on desktop, 6 items limit */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+          {products.slice(0, 6).map((product, index) => (
             <motion.div
               key={product.id}
+              className={index === 5 ? 'lg:hidden' : ''}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

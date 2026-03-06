@@ -6,6 +6,7 @@ import { ProductBreadcrumbs } from '@/components/ProductDetails/ProductBreadcrum
 import { ProductGallery } from '@/components/ProductDetails/ProductGallery'
 import { ProductInfo } from '@/components/ProductDetails/ProductInfo'
 import { ProductRelated } from '@/components/ProductDetails/ProductRelated'
+import { ProductReviews } from '@/components/ProductDetails/ProductReviews'
 import { TopBar } from '@/components/Header/TopBar'
 import { Navigation } from '@/components/Header/Navigation'
 import { BackButton } from '@/components/Header/BackButton'
@@ -63,7 +64,7 @@ export default function ProductPage() {
             <BackButton />
 
             <main className="flex-1 bg-white">
-                <div className="container mx-auto px-4 max-w-5xl pt-8 pb-16">
+                <div className="container mx-auto px-4 max-w-7xl pt-8 pb-16">
                     {loading ? (
                         <div className="space-y-8">
                             {/* Breadcrumbs Skeleton */}
@@ -129,6 +130,7 @@ export default function ProductPage() {
                                 <ProductInfo product={detailedProduct!} />
                             </div>
 
+                            <ProductReviews productId={parseInt(id as string)} />
                             <ProductRelated />
                         </>
                     )}
