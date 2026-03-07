@@ -1,143 +1,139 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
-import { ChevronRight } from 'lucide-react'
+import { ChevronRight, ChevronDown, Filter } from 'lucide-react'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-
-const filterCategories = [
-    {
-        id: 'Mens',
-        name: 'Mens',
-        subCategories: [
-            { id: 'Textile', name: 'Textile' },
-            { id: 'Textile Jackets', name: 'Textile Jackets' },
-            { id: 'Leather Jackets', name: 'Leather Jackets' },
-            { id: 'Pant', name: 'Leather Pants' },
-            { id: 'Swimming Diving Suit', name: 'Swimming Diving Suit' },
-        ]
-    },
-    {
-        id: 'Women',
-        name: 'Women',
-        subCategories: [
-            { id: 'Textile', name: 'Textile' },
-            { id: 'Textile Jackets', name: 'Textile Jackets' },
-            { id: 'Leather Jackets', name: 'Leather Jackets' },
-            { id: 'Pants', name: 'Pants' },
-            { id: 'Swimming Diving Suits', name: 'Swimming Diving Suits' },
-        ]
-    },
-    {
-        id: 'Kids',
-        name: 'Kids',
-        subCategories: [
-            { id: 'Textile', name: 'Textile' },
-            { id: 'Kids Leather And Textile Jackets', name: 'Leather & Textile Jackets' },
-        ]
-    },
-    {
-        id: 'Mens & Women',
-        name: 'Gloves & Accessories',
-        subCategories: [
-            { id: 'Gloves Collection', name: 'Gloves Collection' },
-            { id: 'Accessories', name: 'Accessories' },
-        ]
-    },
-    {
-        id: 'Other',
-        name: 'Uniforms',
-        subCategories: [
-            { id: 'Uniforms', name: 'Uniforms' },
-        ]
-    },
-]
+import { CATEGORY_HIERARCHY } from '@/lib/constants'
 
 export function ProductFilter() {
     const router = useRouter()
     const searchParams = useSearchParams()
+
     const currentCategory = searchParams.get('category')
     const currentSubCategory = searchParams.get('subCategory')
+    const currentItemType = searchParams.get('itemType')
 
-    const handleCategoryChange = (categoryId: string, subCategoryId?: string) => {
+    const [expandedCategories, setExpandedCategories] = useState<string[]>(currentCategory ? [currentCategory] : [])
+    const [expandedSubCategories, setExpandedSubCategories] = useState<string[]>(currentSubCategory ? [currentSubCategory] : [])
+
+    const toggleCategory = (cat: string) => {
+        setExpandedCategories(prev =>
+            prev.includes(cat) ? prev.filter(c => c !== cat) : [...prev, cat]
+        )
+    }
+
+    const toggleSubCategory = (sub: string) => {
+        setExpandedSubCategories(prev =>
+            prev.includes(sub) ? prev.filter(s => s !== sub) : [...prev, sub]
+        )
+    }
+
+    const handleFilterChange = (cat: string = '', sub: string = '', item: string = '') => {
         const params = new URLSearchParams()
-        if (categoryId) {
-            params.set('category', categoryId)
-            if (subCategoryId) params.set('subCategory', subCategoryId)
-        }
+        if (cat) params.set('category', cat)
+        if (sub) params.set('subCategory', sub)
+        if (item) params.set('itemType', item)
         router.push(`/products?${params.toString()}`)
     }
 
-    const isActive = (catId: string, subId?: string) => {
-        if (subId) return currentCategory === catId && currentSubCategory === subId
-        return currentCategory === catId
+    const isActive = (cat: string, sub: string = '', item: string = '') => {
+        if (item) return currentCategory === cat && currentSubCategory === sub && currentItemType === item
+        if (sub) return currentCategory === cat && currentSubCategory === sub && !currentItemType
+        return currentCategory === cat && !currentSubCategory && !currentItemType
     }
 
     return (
-        <div className="space-y-5 lg:pr-8 lg:border-r border-gray-100 h-full">
-            <h3 className="text-sm font-bold uppercase tracking-widest text-gray-900">Categories</h3>
+        <div className="space-y-6">
+            <div className="flex items-center gap-2 pb-4 border-b border-gray-100">
+                <Filter className="w-4 h-4" />
+                <h3 className="text-sm font-black uppercase tracking-[0.2em] text-gray-900">Refine Results</h3>
+            </div>
 
-            {/* All */}
+            {/* All Products */}
             <div
-                className="flex items-center space-x-3 group cursor-pointer"
-                onClick={() => handleCategoryChange('')}
+                className="flex items-center space-x-3 group cursor-pointer py-1"
+                onClick={() => handleFilterChange()}
             >
-                <Checkbox
-                    id="all-categories"
-                    checked={!currentCategory}
-                    onCheckedChange={() => handleCategoryChange('')}
-                    className="w-4 h-4 rounded-md border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
-                />
-                <Label
-                    htmlFor="all-categories"
-                    className={`text-xs cursor-pointer transition-colors ${!currentCategory ? 'text-black font-bold' : 'text-gray-500 group-hover:text-black'}`}
-                >
-                    All Products
+                <div className={`w-4 h-4 rounded-md border-2 transition-all flex items-center justify-center ${!currentCategory ? 'bg-black border-black text-white' : 'border-gray-200 group-hover:border-black'}`}>
+                    {!currentCategory && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                </div>
+                <Label className={`text-[11px] font-black uppercase tracking-widest cursor-pointer transition-colors ${!currentCategory ? 'text-black' : 'text-gray-400 group-hover:text-black'}`}>
+                    All Collection
                 </Label>
             </div>
 
-            {/* Category groups */}
-            <div className="space-y-4">
-                {filterCategories.map((cat) => (
-                    <div key={cat.id} className="space-y-2">
-                        {/* Category header - clickable */}
-                        <div
-                            className="flex items-center space-x-3 group cursor-pointer"
-                            onClick={() => handleCategoryChange(cat.id)}
-                        >
-                            <Checkbox
-                                id={cat.id}
-                                checked={isActive(cat.id) && !currentSubCategory}
-                                onCheckedChange={() => handleCategoryChange(cat.id)}
-                                className="w-4 h-4 rounded-md border-gray-200 data-[state=checked]:bg-black data-[state=checked]:border-black"
-                            />
-                            <Label
-                                htmlFor={cat.id}
-                                className={`text-xs font-bold cursor-pointer uppercase tracking-wide transition-colors ${isActive(cat.id) && !currentSubCategory ? 'text-black' : 'text-gray-700 group-hover:text-black'}`}
+            <div className="space-y-1">
+                {Object.entries(CATEGORY_HIERARCHY).map(([catName, subCats]) => (
+                    <div key={catName} className="space-y-1">
+                        {/* Category Row */}
+                        <div className="flex items-center group">
+                            <div
+                                onClick={() => handleFilterChange(catName)}
+                                className="flex flex-1 items-center space-x-3 cursor-pointer py-2"
                             >
-                                {cat.name}
-                            </Label>
+                                <div className={`w-4 h-4 rounded-md border-2 transition-all flex items-center justify-center ${isActive(catName) ? 'bg-black border-black' : 'border-gray-200 group-hover:border-black'}`}>
+                                    {isActive(catName) && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                                </div>
+                                <span className={`text-[11px] font-black uppercase tracking-widest transition-colors ${isActive(catName) ? 'text-black' : 'text-gray-500 group-hover:text-black'}`}>
+                                    {catName}
+                                </span>
+                            </div>
+                            <button
+                                onClick={(e) => { e.stopPropagation(); toggleCategory(catName); }}
+                                className="p-2 hover:bg-gray-50 rounded-lg transition-colors"
+                            >
+                                {expandedCategories.includes(catName) ? <ChevronDown className="w-3.5 h-3.5" /> : <ChevronRight className="w-3.5 h-3.5" />}
+                            </button>
                         </div>
 
-                        {/* Sub-categories (always visible, indented) */}
-                        <div className="pl-7 space-y-1.5 border-l-2 border-gray-100">
-                            {cat.subCategories.map((sub) => (
-                                <div
-                                    key={sub.id}
-                                    className="flex items-center space-x-2 group cursor-pointer"
-                                    onClick={() => handleCategoryChange(cat.id, sub.id)}
-                                >
-                                    <div className={`w-1.5 h-1.5 rounded-full transition-colors flex-shrink-0 ${isActive(cat.id, sub.id) ? 'bg-black' : 'bg-gray-300 group-hover:bg-gray-600'}`} />
-                                    <span
-                                        className={`text-[11px] cursor-pointer transition-colors ${isActive(cat.id, sub.id) ? 'text-black font-bold' : 'text-gray-500 group-hover:text-black'}`}
-                                    >
-                                        {sub.name}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
+                        {/* Sub-categories */}
+                        {expandedCategories.includes(catName) && (
+                            <div className="pl-4 ml-2 border-l border-gray-100 space-y-1 mt-1">
+                                {Object.entries(subCats).map(([subName, items]) => (
+                                    <div key={subName} className="space-y-1">
+                                        <div className="flex items-center group">
+                                            <div
+                                                onClick={() => handleFilterChange(catName, subName)}
+                                                className="flex flex-1 items-center space-x-3 cursor-pointer py-1.5"
+                                            >
+                                                <div className={`w-3 h-3 rounded-full border-2 transition-all flex items-center justify-center ${isActive(catName, subName) ? 'bg-black border-black' : 'border-gray-200 group-hover:border-black'}`}>
+                                                    {isActive(catName, subName) && <div className="w-1 h-1 bg-white rounded-full" />}
+                                                </div>
+                                                <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${isActive(catName, subName) ? 'text-black' : 'text-gray-400 group-hover:text-black'}`}>
+                                                    {subName}
+                                                </span>
+                                            </div>
+                                            <button
+                                                onClick={(e) => { e.stopPropagation(); toggleSubCategory(subName); }}
+                                                className="p-1.5 hover:bg-gray-50 rounded-lg transition-colors"
+                                            >
+                                                {expandedSubCategories.includes(subName) ? <ChevronDown className="w-3 h-3 text-gray-400" /> : <ChevronRight className="w-3 h-3 text-gray-400" />}
+                                            </button>
+                                        </div>
+
+                                        {/* Item Types */}
+                                        {expandedSubCategories.includes(subName) && (
+                                            <div className="pl-4 ml-1.5 border-l border-gray-100 space-y-1 mt-1 mb-2">
+                                                {items.map(itemName => (
+                                                    <div
+                                                        key={itemName}
+                                                        onClick={() => handleFilterChange(catName, subName, itemName)}
+                                                        className="flex items-center space-x-2 cursor-pointer py-1 group"
+                                                    >
+                                                        <div className={`w-1 h-1 rounded-full transition-colors ${isActive(catName, subName, itemName) ? 'bg-black scale-150' : 'bg-gray-300 group-hover:bg-gray-500'}`} />
+                                                        <span className={`text-[10px] font-semibold uppercase tracking-tight transition-colors ${isActive(catName, subName, itemName) ? 'text-black font-black' : 'text-gray-400 group-hover:text-black'}`}>
+                                                            {itemName}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>

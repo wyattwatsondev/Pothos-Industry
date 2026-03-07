@@ -69,15 +69,65 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
-    const orders = await prisma.order.findMany({
-      orderBy: {
-        createdAt: 'desc',
+    const { searchParams } = new URL(req.url);
+    const search = searchParams.get('search') || '';
+    const status = searchParams.get('status');
+    const skip = parseInt(searchParams.get('skip') || '0');
+    const limit = parseInt(searchParams.get('limit') || '50');
+
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { firstName: { contains: search, mode: 'insensitive' } },
+        { lastName: { contains: search, mode: 'insensitive' } },
+        { email: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+    if (status && status !== 'all') {
+      where.status = status;
+    }
+
+    const [orders, total] = await Promise.all([
+      prisma.order.findMany({
+        where,
+        skip,
+        take: limit,
+        orderBy: { createdAt: 'desc' },
+      }),
+      prisma.order.count({ where }),
+    ]);
+
+    // Fetch global stats for admin dashboard
+    const statsResult = await prisma.order.groupBy({
+      by: ['status'],
+      _count: { id: true },
+    });
+
+    const stats = statsResult.reduce((acc: any, curr) => {
+      acc[curr.status.toLowerCase()] = curr._count.id;
+      return acc;
+    }, {});
+    
+    const totalGlobal = await prisma.order.count();
+    const revenueResult = await prisma.order.aggregate({
+      _sum: {
+        total: true,
       },
     });
 
-    return NextResponse.json(orders, { status: 200 });
+    return NextResponse.json({ 
+      orders, 
+      total, 
+      stats: {
+        total: totalGlobal,
+        pending: stats['pending'] || 0,
+        approved: stats['approved'] || 0,
+        delivered: stats['delivered'] || 0,
+        totalRevenue: revenueResult._sum.total || 0,
+      }
+    });
   } catch (error: any) {
     console.error('Error fetching orders:', error);
     return NextResponse.json(

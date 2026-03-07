@@ -19,7 +19,7 @@ export function Newsletter() {
   }
 
   return (
-    <section className="w-full bg-white text-gray-900 py-10 sm:py-8 border-y border-gray-100 overflow-hidden">
+    <section className="w-full bg-white text-gray-900 py-6 sm:py-8 border-y border-gray-100 overflow-hidden">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -31,31 +31,31 @@ export function Newsletter() {
           initial={{ scale: 0 }}
           whileInView={{ scale: 1 }}
           viewport={{ once: true }}
-          className="w-16 h-16 sm:w-20 sm:h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6 sm:mb-8 shadow-inner border border-primary/10"
+          className="w-12 h-12 sm:w-20 sm:h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-4 sm:mb-8 shadow-inner border border-primary/10"
         >
-          <Mail className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
+          <Mail className="w-6 h-6 sm:w-10 sm:h-10 text-primary" />
         </motion.div>
 
-        <h2 className="text-2xl sm:text-4xl md:text-5xl font-semibold mb-4 sm:mb-6 text-charcoal uppercase tracking-tight">
+        <h2 className="text-xl sm:text-4xl md:text-5xl font-semibold mb-2 sm:mb-6 text-charcoal uppercase tracking-tight">
           Join the <span className="text-primary italic">Collective</span>
         </h2>
 
-        <p className="text-gray-500 mb-8 sm:mb-12 text-sm sm:text-lg sm:text-xl font-medium max-w-xl mx-auto">
+        <p className="text-gray-500 mb-6 sm:mb-12 text-xs sm:text-lg sm:text-xl font-medium max-w-xl mx-auto">
           Get exclusive offers, new arrivals, and special promotions delivered to your inbox.
         </p>
 
-        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
+        <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-3 sm:gap-4 max-w-lg mx-auto">
           <input
             type="email"
             placeholder="Your email address"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="flex-1 px-4 sm:px-8 py-2 sm:py-2 rounded-full border border-gray-200 text-gray-900 outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-sm sm:text-lg bg-white"
+            className="flex-1 px-4 sm:px-8 py-2.5 sm:py-2 rounded-full border border-gray-200 text-gray-900 outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all font-medium text-xs sm:text-lg bg-white"
           />
           <Button
             type="submit"
-            className="bg-charcoal hover:bg-primary text-white font-extrabold px-8 sm:px-8 py-3 sm:py-6 rounded-full transition-all duration-500 whitespace-nowrap tracking-widest text-sm sm:text-md shadow-xl hover:shadow-primary/30"
+            className="bg-charcoal hover:bg-primary text-white font-extrabold px-6 sm:px-8 py-2.5 sm:py-6 rounded-full transition-all duration-500 whitespace-nowrap tracking-widest text-[10px] sm:text-md shadow-xl hover:shadow-primary/30"
           >
             Subscribe Now
           </Button>

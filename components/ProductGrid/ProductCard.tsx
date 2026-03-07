@@ -25,15 +25,15 @@ export function ProductCard({
   rating,
 }: ProductCardProps) {
   return (
-    <div className="bg-white rounded-[2rem] p-2 border border-gray-100 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] group relative overflow-hidden">
+    <div className="bg-white rounded-[1.5rem] sm:rounded-[2rem] p-1 sm:p-2 border border-gray-100 transition-all duration-700 hover:shadow-[0_20px_50px_rgba(0,0,0,0.08)] group relative overflow-hidden">
       <Link href={`/product/${id}`}>
         {/* Image Container */}
-        <div className="relative overflow-hidden rounded-[1.8rem] aspect-square bg-[#F9FAFB] flex items-center justify-center">
+        <div className="relative overflow-hidden rounded-[1.3rem] sm:rounded-[1.8rem] aspect-square bg-[#F9FAFB] sm:bg-[#F9FAFB] flex items-center justify-center">
           <Image
             src={image || '/placeholder.svg'}
             alt={name}
             fill
-            className="object-contain p-6 group-hover:scale-110 transition-transform duration-700 ease-out"
+            className="object-contain p-2 sm:p-6 group-hover:scale-110 transition-transform duration-700 ease-out"
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 25vw, 20vw"
           />
 
@@ -54,7 +54,7 @@ export function ProductCard({
         </div>
 
         {/* Content */}
-        <div className="mt-5 px-2 pb-2">
+        <div className="mt-3 sm:mt-5 px-1.5 sm:px-2 pb-2">
           <div className="flex justify-between items-start mb-2">
             <div>
               {category && (
@@ -71,10 +71,10 @@ export function ProductCard({
           {/* Price & Action */}
           <div className="flex items-center justify-between mt-3 sm:mt-4">
             <div className="flex flex-col">
-              <span className="text-base sm:text-xl font-black text-charcoal tracking-tighter leading-none">${price}</span>
+              <span className="text-base sm:text-xl font-black text-charcoal tracking-tighter leading-none">Rs {price}</span>
               {originalPrice && (
                 <span className="text-[10px] sm:text-xs text-gray-400 line-through mt-0.5 sm:mt-1 opacity-60">
-                  ${originalPrice}
+                  Rs {originalPrice}
                 </span>
               )}
             </div>

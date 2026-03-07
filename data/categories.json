@@ -5,56 +5,57 @@
       "name": "Textile",
       "slug": "textile",
       "image": "/Photos Industry/31.jpeg",
-      "link": "/products?category=textile"
+      "link": "/products?category=Mens&subCategory=Textile"
     },
     {
       "id": 2,
       "name": "Textile Jackets",
       "slug": "textile-jackets",
       "image": "/Photos Industry/26.jpeg",
-      "link": "/products?category=textile-jackets"
+      "link": "/products?category=Mens&subCategory=Textile Jackets"
     },
     {
       "id": 3,
       "name": "Leather Jackets",
       "slug": "leather-jackets",
       "image": "/Photos Industry/30.jpeg",
-      "link": "/products?category=leather-jackets"
+      "link": "/products?category=Mens&subCategory=Leather Jackets"
     },
     {
       "id": 4,
       "name": "Gloves Collection",
       "slug": "gloves-collection",
       "image": "/Photos Industry/32.jpeg",
-      "link": "/products?category=gloves-collection"
+      "link": "/products?category=Mens %26 Women&subCategory=Gloves Collection"
     },
     {
       "id": 5,
       "name": "Accessories",
       "slug": "accessories",
       "image": "/Photos Industry/29.jpeg",
-      "link": "/products?category=accessories"
+      "link": "/products?category=Mens %26 Women&subCategory=Accessories"
     },
     {
       "id": 6,
       "name": "Pants",
       "slug": "pants",
       "image": "/Photos Industry/28.jpeg",
-      "link": "/products?category=pants"
+      "link": "/products?category=Mens&subCategory=Pant"
     },
     {
       "id": 7,
       "name": "Swimming Diving Suits",
       "slug": "swimming-diving-suits",
       "image": "/Photos Industry/27.jpeg",
-      "link": "/products?category=swimming-diving-suits"
+      "link": "/products?category=Mens&subCategory=Swimming Diving Suit"
     },
     {
       "id": 8,
       "name": "Uniforms",
       "slug": "uniforms",
       "image": "/Photos Industry/25.jpeg",
-      "link": "/products?category=uniforms"
+      "link": "/products?category=Other&subCategory=Uniforms"
     }
   ]
 }
+

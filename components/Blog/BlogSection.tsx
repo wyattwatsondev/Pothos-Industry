@@ -78,26 +78,26 @@ export function BlogSection() {
                 </div>
 
                 {/* 5 Cards in a Row */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
                     {blogPosts.map((post) => (
-                        <Link key={post.id} href={`/blog/${post.id}`} className="group relative aspect-[3/4.5] rounded-3xl overflow-hidden shadow-md bg-gray-100 flex flex-col justify-end">
+                        <Link key={post.id} href={`/blog/${post.id}`} className="group relative aspect-[16/9] sm:aspect-[3/4.5] rounded-2xl sm:rounded-3xl overflow-hidden shadow-md bg-gray-100 flex flex-col justify-end">
                             <Image
                                 src={post.image || "/placeholder.svg"}
                                 alt={post.title}
                                 fill
                                 className="object-cover transition-transform duration-700 group-hover:scale-105"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-90" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 xl:via-black/20 to-transparent opacity-90" />
 
-                            <div className="relative z-10 p-5 flex flex-col items-start gap-3">
-                                <span className="px-2 py-1 bg-white/95 backdrop-blur-sm text-black text-[9px] font-black tracking-tight rounded-md shadow-sm uppercase">
+                            <div className="relative z-10 p-3 sm:p-5 flex flex-col items-start gap-2 sm:gap-3">
+                                <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 bg-white/95 backdrop-blur-sm text-black text-[8px] sm:text-[9px] font-black tracking-tight rounded-sm sm:rounded-md shadow-sm uppercase">
                                     {post.category}
                                 </span>
                                 <div>
-                                    <h3 className="text-base sm:text-lg font-black text-white leading-tight mb-2 tracking-tight group-hover:text-primary transition-colors uppercase">
+                                    <h3 className="text-sm sm:text-base lg:text-lg font-black text-white leading-tight mb-1 sm:mb-2 tracking-tight group-hover:text-primary transition-colors uppercase line-clamp-2">
                                         {post.title}
                                     </h3>
-                                    <p className="text-gray-300 text-[11px] font-medium line-clamp-3 leading-snug opacity-80">
+                                    <p className="text-gray-300 text-[9px] sm:text-[11px] font-medium line-clamp-2 sm:line-clamp-3 leading-snug opacity-80 hidden sm:block">
                                         {post.subtitle}
                                     </p>
                                 </div>
