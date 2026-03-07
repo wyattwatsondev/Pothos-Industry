@@ -279,7 +279,7 @@ export function Navigation() {
             <Link href="/" className="flex-shrink-0 flex items-center">
               <Image
                 src="/logo.png"
-                alt="YourStore Logo"
+                alt="POTHOS Logo"
                 width={140}
                 height={60}
                 priority
@@ -355,7 +355,7 @@ export function Navigation() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="relative hover:bg-white/10 rounded-full group"
+                className="relative hover:bg-black rounded-full group"
                 onClick={() => setCartOpen(true)}
               >
                 <ShoppingCart className="w-5 h-5 text-charcoal group-hover:text-white transition-colors" />

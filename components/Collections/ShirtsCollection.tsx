@@ -44,10 +44,10 @@ export function ShirtsCollection({ products }: ShirtsCollectionProps) {
         {/* View All Link */}
         <div className="flex justify-center mt-16">
           <Link
-            href="/products?category=mens-shirts"
+            href="/products?category=Mens+%26+Women&subCategory=Textile+Jackets"
             className="group flex items-center gap-3 bg-secondary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-extrabold uppercase tracking-widest transition-all duration-500 shadow-sm hover:shadow-primary/20"
           >
-            <span className="text-xs">View Full Collection</span>
+            <span className="text-xs">View All Jackets</span>
             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
           </Link>
         </div>

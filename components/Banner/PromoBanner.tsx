@@ -23,7 +23,7 @@ export function PromoBanner() {
               Free Shipping
             </h3>
             <p className="text-gray-300 text-sm sm:text-base">
-              On orders over $50
+              On orders over Rs 50
             </p>
           </div>
 

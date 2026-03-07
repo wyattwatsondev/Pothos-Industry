@@ -12,6 +12,7 @@ import {
     Trash2,
     Loader2,
     Menu,
+    LogOut,
     TrendingUp,
     TrendingDown,
     Package,
@@ -139,15 +140,30 @@ function AdminSidebar({ activeTab, setActiveTab }: { activeTab: string; setActiv
             </div>
 
             <div className="mt-auto p-6 border-t border-white/5">
-                <div className="flex items-center space-x-3">
-                    <Avatar className="h-10 w-10 border-2 border-white/10">
-                        <AvatarImage src="/ProductImages/85.png" />
-                        <AvatarFallback className="bg-white text-black font-bold">AD</AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                        <p className="text-xs font-bold truncate uppercase tracking-wider">Administrator</p>
-                        <p className="text-[10px] text-gray-400 truncate font-semibold">admin@pothosindustry.com</p>
+                <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                        <Avatar className="h-10 w-10 border-2 border-white/10">
+                            <AvatarImage src="/ProductImages/85.png" />
+                            <AvatarFallback className="bg-white text-black font-bold">AD</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                            <p className="text-xs font-bold truncate uppercase tracking-wider">Administrator</p>
+                            <p className="text-[10px] text-gray-400 truncate font-semibold">admin@pothosindustry.com</p>
+                        </div>
                     </div>
+                    <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-gray-400 hover:text-red-400 hover:bg-red-500/10 rounded-xl transition-all"
+                        onClick={() => {
+                            fetch('/api/auth/logout', { method: 'POST' }).then(() => {
+                                window.location.href = '/admin/login';
+                            });
+                        }}
+                        title="Logout"
+                    >
+                        <LogOut size={16} />
+                    </Button>
                 </div>
             </div>
         </div>
@@ -159,6 +175,12 @@ export default function AdminPage() {
     const [products, setProducts] = useState<Product[]>([]);
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
+    const [totalProductCount, setTotalProductCount] = useState(0);
+    const [totalOrderCount, setTotalOrderCount] = useState(0);
+    const [orderPage, setOrderPage] = useState(1);
+    const orderItemsPerPage = 50;
+    const [globalOrderStats, setGlobalOrderStats] = useState({ total: 0, pending: 0, approved: 0, delivered: 0, totalRevenue: 0 });
+    const [categoryCounts, setCategoryCounts] = useState<{ name: string, count: number }[]>([]);
     const [editingId, setEditingId] = useState<number | null>(null);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [formData, setFormData] = useState({
@@ -175,6 +197,11 @@ export default function AdminPage() {
     // Product filters
     const [productSearch, setProductSearch] = useState('');
     const [categoryFilter, setCategoryFilter] = useState('all');
+    const [subCategoryFilter, setSubCategoryFilter] = useState('all');
+    const [itemTypeFilter, setItemTypeFilter] = useState('all');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [isFetching, setIsFetching] = useState(false);
+    const itemsPerPage = 20;
 
     // Order filters
     const [orderSearch, setOrderSearch] = useState('');
@@ -194,15 +221,44 @@ export default function AdminPage() {
     const router = useRouter();
 
     useEffect(() => {
-        fetchProducts();
         fetchOrders();
     }, []);
 
+    useEffect(() => {
+        fetchProducts();
+    }, [currentPage, productSearch, categoryFilter, subCategoryFilter, itemTypeFilter]);
+
+    useEffect(() => {
+        fetchOrders();
+    }, [orderPage, orderSearch, orderStatusFilter]);
+
+    // Reset page when filters change
+    useEffect(() => {
+        setCurrentPage(1);
+    }, [productSearch, categoryFilter, subCategoryFilter, itemTypeFilter]);
+
+    useEffect(() => {
+        setOrderPage(1);
+    }, [orderSearch, orderStatusFilter]);
+
     const fetchOrders = async () => {
         try {
-            const res = await fetch('/api/orders');
+            const params = new URLSearchParams();
+            params.append('skip', ((orderPage - 1) * orderItemsPerPage).toString());
+            params.append('limit', orderItemsPerPage.toString());
+            if (orderSearch) params.append('search', orderSearch);
+            if (orderStatusFilter !== 'all') params.append('status', orderStatusFilter);
+
+            const res = await fetch(`/api/orders?${params.toString()}`);
             const data = await res.json();
-            setOrders(data);
+            if (data && data.orders) {
+                setOrders(data.orders);
+                setTotalOrderCount(data.total || 0);
+                if (data.stats) setGlobalOrderStats(data.stats);
+            } else if (Array.isArray(data)) {
+                setOrders(data);
+                setTotalOrderCount(data.length);
+            }
         } catch (error) {
             console.error('Error fetching orders:', error);
         }
@@ -247,15 +303,35 @@ export default function AdminPage() {
     };
 
     const fetchProducts = async () => {
+        setIsFetching(true);
         try {
-            const res = await fetch('/api/products?full=true&limit=50');
+            const params = new URLSearchParams();
+            params.append('full', 'true');
+            params.append('limit', itemsPerPage.toString());
+            params.append('skip', ((currentPage - 1) * itemsPerPage).toString());
+
+            if (productSearch) params.append('search', productSearch);
+            if (categoryFilter !== 'all') params.append('category', categoryFilter);
+            if (subCategoryFilter !== 'all') params.append('subCategory', subCategoryFilter);
+            if (itemTypeFilter !== 'all') params.append('itemType', itemTypeFilter);
+
+            const res = await fetch(`/api/products?${params.toString()}`);
             const data = await res.json();
-            if (data && data.products) setProducts(data.products);
-            else if (Array.isArray(data)) setProducts(data);
+            if (data && data.products) {
+                setProducts(data.products);
+                setTotalProductCount(data.total || 0);
+                if (data.categoryCounts) {
+                    setCategoryCounts(data.categoryCounts);
+                }
+            } else if (Array.isArray(data)) {
+                setProducts(data);
+                setTotalProductCount(data.length);
+            }
         } catch (error) {
             console.error('Error fetching products:', error);
         } finally {
             setLoading(false);
+            setIsFetching(false);
         }
     };
 
@@ -322,33 +398,18 @@ export default function AdminPage() {
         }
     };
 
-    // Derived filtered lists
-    const filteredProducts = products.filter(p => {
-        const matchesSearch = p.name.toLowerCase().includes(productSearch.toLowerCase());
-        const matchesCategory = categoryFilter === 'all' || p.category === categoryFilter;
-        return matchesSearch && matchesCategory;
-    });
+    // Derived filtered lists - now handled server side, just return products
+    const filteredProducts = products;
 
-    const filteredOrders = orders.filter(o => {
-        const fullName = `${o.firstName} ${o.lastName}`.toLowerCase();
-        const matchesSearch = fullName.includes(orderSearch.toLowerCase()) || o.email.toLowerCase().includes(orderSearch.toLowerCase());
-        const matchesStatus = orderStatusFilter === 'all' || o.status === orderStatusFilter;
-        return matchesSearch && matchesStatus;
-    });
+    const filteredOrders = orders;
 
     // Product stats per category
-    const productCategoryCounts = Object.keys(CATEGORY_HIERARCHY).map(cat => ({
-        name: cat,
-        count: products.filter(p => p.category === cat).length,
-    }));
+    const productCategoryCounts = categoryCounts;
+
+    const totalRevenue = globalOrderStats.totalRevenue;
 
     // Order stats
-    const orderStats = {
-        total: orders.length,
-        pending: orders.filter(o => o.status === 'Pending').length,
-        approved: orders.filter(o => o.status === 'Approved').length,
-        delivered: orders.filter(o => o.status === 'Delivered').length,
-    };
+    const orderStats = globalOrderStats;
 
     return (
         <div className="flex min-h-screen bg-white flex-col lg:flex-row" style={{ fontFamily: 'var(--font-geist), sans-serif' }}>
@@ -413,7 +474,7 @@ export default function AdminPage() {
                                                     <Input value={formData.name} onChange={(e) => setFormData({ ...formData, name: e.target.value })} placeholder="e.g. Silk Summer Dress" required className="rounded-xl h-10 sm:h-12 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-xs sm:text-sm font-semibold transition-all" />
                                                 </div>
                                                 <div className="space-y-1.5 sm:space-y-2">
-                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Price ($)</label>
+                                                    <label className="text-[9px] sm:text-[10px] font-bold text-charcoal uppercase tracking-widest">Price (Rs)</label>
                                                     <Input type="number" step="0.01" value={formData.price} onChange={(e) => setFormData({ ...formData, price: e.target.value })} placeholder="0.00" required className="rounded-xl h-10 sm:h-12 border-2 border-charcoal/5 bg-gray-50 focus:bg-white text-xs sm:text-sm font-semibold transition-all" />
                                                 </div>
                                                 <div className="space-y-1.5 sm:space-y-2">
@@ -454,7 +515,7 @@ export default function AdminPage() {
                                                 </div>
                                             </div>
                                             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-3 mb-2">
-                                                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1 h-8 sm:h-10 rounded-xl border-2 border-charcoal/5 font-bold tracking-widest text-[9px] sm:text-[10px] hover:bg-gray-100 hover:text-black">Cancel</Button>
+                                                <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)} className="flex-1 h-8 sm:h-10 rounded-xl border-2 border-charcoal/5 font-bold tracking-widest text-[9px] sm:text-[10px] hover:bg-gray-100 hover:text-black hover:text-charcoal">Cancel</Button>
                                                 <Button type="submit" disabled={isSubmitting} className="flex-1 h-8 sm:h-10 rounded-xl bg-[#1a1a1a] text-white hover:bg-neutral-800 font-bold tracking-widest text-[9px] sm:text-[10px]">
                                                     {isSubmitting ? (<div className="flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin text-white" /><span>SAVING...</span></div>) : (editingId ? 'Save Changes' : 'Add to Catalog')}
                                                 </Button>
@@ -464,35 +525,93 @@ export default function AdminPage() {
                                 </Dialog>
                             </div>
 
-                            {/* Product Stat Cards */}
-                            <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
-                                <Card
-                                    onClick={() => setCategoryFilter('all')}
-                                    className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === 'all' ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white' : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
-                                >
-                                    <CardContent className="p-3 sm:p-4 text-center space-y-1 sm:space-y-1.5">
-                                        <Package size={16} className={`mx-auto sm:hidden ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
-                                        <Package size={18} className={`mx-auto hidden sm:block ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
-                                        <p className={`text-xl sm:text-2xl font-bold tracking-tighter ${categoryFilter === 'all' ? 'text-white' : 'text-charcoal'}`}>{products.length}</p>
-                                        <p className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-widest ${categoryFilter === 'all' ? 'text-gray-300' : 'text-gray-400'}`}>All Products</p>
-                                    </CardContent>
-                                </Card>
-                                {productCategoryCounts.map(cat => (
+                            {/* Hierarchical Filter Bubbles */}
+                            <div className="space-y-4">
+                                <div className="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
                                     <Card
-                                        key={cat.name}
-                                        onClick={() => setCategoryFilter(cat.name)}
-                                        className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === cat.name ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white' : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
+                                        onClick={() => { setCategoryFilter('all'); setSubCategoryFilter('all'); setItemTypeFilter('all'); }}
+                                        className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === 'all' ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white' : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
                                     >
                                         <CardContent className="p-3 sm:p-4 text-center space-y-1 sm:space-y-1.5">
-                                            <p className={`text-xl sm:text-2xl font-bold tracking-tighter ${categoryFilter === cat.name ? 'text-white' : 'text-charcoal'}`}>{cat.count}</p>
-                                            <p className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-widest leading-tight ${categoryFilter === cat.name ? 'text-gray-300' : 'text-gray-400'}`}>{cat.name}</p>
+                                            <Package size={16} className={`mx-auto sm:hidden ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
+                                            <Package size={18} className={`mx-auto hidden sm:block ${categoryFilter === 'all' ? 'text-white' : 'text-gray-400'}`} />
+                                            <p className={`text-xl sm:text-2xl font-bold tracking-tighter ${categoryFilter === 'all' ? 'text-white' : 'text-charcoal'}`}>{totalProductCount}</p>
+                                            <p className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-widest ${categoryFilter === 'all' ? 'text-gray-300' : 'text-gray-400'}`}>All Products</p>
                                         </CardContent>
                                     </Card>
-                                ))}
+                                    {productCategoryCounts.map(cat => (
+                                        <Card
+                                            key={cat.name}
+                                            onClick={() => { setCategoryFilter(cat.name); setSubCategoryFilter('all'); setItemTypeFilter('all'); }}
+                                            className={`rounded-xl sm:rounded-2xl border-2 cursor-pointer transition-all duration-200 ${categoryFilter === cat.name ? 'border-[#1a1a1a] bg-[#1a1a1a] text-white' : 'border-charcoal/5 bg-white hover:border-charcoal/20'}`}
+                                        >
+                                            <CardContent className="p-3 sm:p-4 text-center space-y-1 sm:space-y-1.5">
+                                                <p className={`text-xl sm:text-2xl font-bold tracking-tighter ${categoryFilter === cat.name ? 'text-white' : 'text-charcoal'}`}>{cat.count}</p>
+                                                <p className={`text-[7px] sm:text-[8px] font-bold uppercase tracking-widest leading-tight ${categoryFilter === cat.name ? 'text-gray-300' : 'text-gray-400'}`}>{cat.name}</p>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+
+                                {/* Nested Filter Selectors */}
+                                {categoryFilter !== 'all' && (
+                                    <div className="flex flex-wrap gap-4 pt-2">
+                                        {/* SubCategory Row */}
+                                        <div className="flex flex-wrap gap-2 items-center">
+                                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest mr-2">SubCategory:</span>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => { setSubCategoryFilter('all'); setItemTypeFilter('all'); }}
+                                                className={`h-7 rounded-full text-[9px] font-bold uppercase tracking-widest px-4 border-2 ${subCategoryFilter === 'all' ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]' : 'border-charcoal/5 hover:bg-gray-50 hover:text-charcoal'}`}
+                                            >
+                                                All
+                                            </Button>
+                                            {Object.keys(CATEGORY_HIERARCHY[categoryFilter] || {}).map(sub => (
+                                                <Button
+                                                    key={sub}
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => { setSubCategoryFilter(sub); setItemTypeFilter('all'); }}
+                                                    className={`h-7 rounded-full text-[9px] font-bold uppercase tracking-widest px-4 border-2 ${subCategoryFilter === sub ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]' : 'border-charcoal/5 hover:bg-gray-50 hover:text-charcoal'}`}
+                                                >
+                                                    {sub}
+                                                </Button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {categoryFilter !== 'all' && subCategoryFilter !== 'all' && (
+                                    <div className="flex flex-wrap gap-4 pt-1 animate-in fade-in slide-in-from-top-2 duration-300">
+                                        {/* ItemType Row */}
+                                        <div className="flex flex-wrap gap-2 items-center">
+                                            <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest mr-2">Type:</span>
+                                            <Button
+                                                variant="outline"
+                                                size="sm"
+                                                onClick={() => setItemTypeFilter('all')}
+                                                className={`h-7 rounded-full text-[9px] font-bold uppercase tracking-widest px-4 border-2 ${itemTypeFilter === 'all' ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]' : 'border-charcoal/5 hover:bg-gray-50 hover:text-charcoal'}`}
+                                            >
+                                                All
+                                            </Button>
+                                            {(CATEGORY_HIERARCHY[categoryFilter]?.[subCategoryFilter] || []).map(item => (
+                                                <Button
+                                                    key={item}
+                                                    variant="outline"
+                                                    size="sm"
+                                                    onClick={() => setItemTypeFilter(item)}
+                                                    className={`h-7 rounded-full text-[9px] font-bold uppercase tracking-widest px-4 border-2 ${itemTypeFilter === item ? 'bg-[#1a1a1a] text-white border-[#1a1a1a]' : 'border-charcoal/5 hover:bg-gray-50 hover:text-charcoal'}`}
+                                                >
+                                                    {item}
+                                                </Button>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
-                            {/* Search Bar */}
-                            <div className="flex items-center gap-4">
+                            <div className="flex flex-wrap items-center gap-4">
                                 <div className="relative flex-1 max-w-sm">
                                     <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
                                     <Input
@@ -502,12 +621,36 @@ export default function AdminPage() {
                                         className="pl-10 sm:pl-12 h-10 sm:h-11 rounded-xl border-2 border-charcoal/5 bg-gray-50 text-xs sm:text-sm font-semibold focus:border-charcoal/20"
                                     />
                                 </div>
-                                {categoryFilter !== 'all' && (
-                                    <Badge className="bg-[#1a1a1a] text-white border-none rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-widest">
-                                        {categoryFilter}
-                                        <button onClick={() => setCategoryFilter('all')} className="ml-2 text-gray-400 hover:text-white">×</button>
-                                    </Badge>
-                                )}
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {categoryFilter !== 'all' && (
+                                        <Badge className="bg-[#1a1a1a] text-white border-none rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-widest">
+                                            {categoryFilter}
+                                            <button onClick={() => { setCategoryFilter('all'); setSubCategoryFilter('all'); setItemTypeFilter('all'); }} className="ml-2 text-gray-400 hover:text-white">×</button>
+                                        </Badge>
+                                    )}
+                                    {subCategoryFilter !== 'all' && (
+                                        <Badge className="bg-[#1a1a1a]/80 text-white border-none rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-widest">
+                                            {subCategoryFilter}
+                                            <button onClick={() => { setSubCategoryFilter('all'); setItemTypeFilter('all'); }} className="ml-2 text-gray-400 hover:text-white">×</button>
+                                        </Badge>
+                                    )}
+                                    {itemTypeFilter !== 'all' && (
+                                        <Badge className="bg-[#1a1a1a]/60 text-white border-none rounded-full px-4 py-1.5 font-bold text-[10px] uppercase tracking-widest">
+                                            {itemTypeFilter}
+                                            <button onClick={() => setItemTypeFilter('all')} className="ml-2 text-gray-400 hover:text-white">×</button>
+                                        </Badge>
+                                    )}
+                                    {(categoryFilter !== 'all' || subCategoryFilter !== 'all' || itemTypeFilter !== 'all') && (
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            onClick={() => { setCategoryFilter('all'); setSubCategoryFilter('all'); setItemTypeFilter('all'); }}
+                                            className="text-[9px] font-black text-gray-400 uppercase tracking-widest hover:text-red-500 hover:bg-transparent"
+                                        >
+                                            Reset Filters
+                                        </Button>
+                                    )}
+                                </div>
                             </div>
 
                             {/* Products Table */}
@@ -523,7 +666,7 @@ export default function AdminPage() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {loading ? (
+                                        {loading || isFetching ? (
                                             <TableRow><TableCell colSpan={5} className="text-center py-20"><div className="flex items-center justify-center gap-3 text-gray-400"><Loader2 className="w-6 h-6 animate-spin" /><span className="text-sm font-black uppercase tracking-widest">Loading...</span></div></TableCell></TableRow>
                                         ) : filteredProducts.length === 0 ? (
                                             <TableRow><TableCell colSpan={5} className="text-center py-20 text-[10px] font-black text-gray-300 uppercase tracking-widest">No products found</TableCell></TableRow>
@@ -542,14 +685,14 @@ export default function AdminPage() {
                                                     <Badge className="bg-gray-50 text-charcoal border border-charcoal/10 rounded-full px-2 sm:px-3 py-0.5 font-bold text-[7px] sm:text-[9px] uppercase tracking-widest">{product.category}</Badge>
                                                 </TableCell>
                                                 <TableCell className="py-3 sm:py-4">
-                                                    <p className="text-[11px] sm:text-xs font-bold text-charcoal">${product.price.toFixed(2)}</p>
+                                                    <p className="text-[11px] sm:text-xs font-bold text-charcoal">Rs {product.price.toLocaleString()}</p>
                                                 </TableCell>
                                                 <TableCell className="pr-4 sm:pr-6 py-3 sm:py-4 text-right">
                                                     <div className="flex items-center justify-end gap-1.5 sm:gap-2">
-                                                        <Button variant="outline" size="sm" onClick={() => handleEdit(product)} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg border-charcoal/10 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all">
+                                                        <Button variant="outline" size="sm" onClick={() => handleEdit(product)} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg border-charcoal/10 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all hover:text-charcoal">
                                                             <Pencil size={12} className="sm:size-[14px]" />
                                                         </Button>
-                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteClick(product)} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all">
+                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteClick(product)} className="h-8 w-8 sm:h-9 sm:w-9 p-0 rounded-lg border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all hover:text-charcoal">
                                                             <Trash2 size={12} className="sm:size-[14px]" />
                                                         </Button>
                                                     </div>
@@ -558,6 +701,46 @@ export default function AdminPage() {
                                         ))}
                                     </TableBody>
                                 </Table>
+
+                                {/* Pagination Controls */}
+                                <div className="p-6 border-t border-charcoal/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                        Showing {Math.min((currentPage - 1) * itemsPerPage + 1, totalProductCount)} - {Math.min(currentPage * itemsPerPage, totalProductCount)} of {totalProductCount} products
+                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                                            disabled={currentPage === 1 || loading || isFetching}
+                                            className="h-8 px-4 rounded-xl border-2 border-charcoal/5 font-bold text-[10px] uppercase tracking-widest disabled:opacity-30 hover:text-charcoal"
+                                        >
+                                            Previous
+                                        </Button>
+                                        <div className="flex items-center gap-1">
+                                            {Array.from({ length: Math.ceil(totalProductCount / itemsPerPage) }).map((_, i) => (
+                                                <Button
+                                                    key={i}
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => setCurrentPage(i + 1)}
+                                                    className={`h-8 w-8 p-0 rounded-xl font-bold text-[10px] hidden sm:flex ${currentPage === i + 1 ? 'bg-[#1a1a1a] text-white' : 'text-gray-400 hover:bg-gray-100 hover:text-charcoal'}`}
+                                                >
+                                                    {i + 1}
+                                                </Button>
+                                            )).slice(Math.max(0, currentPage - 3), Math.min(Math.ceil(totalProductCount / itemsPerPage), currentPage + 2))}
+                                        </div>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setCurrentPage(prev => Math.min(Math.ceil(totalProductCount / itemsPerPage), prev + 1))}
+                                            disabled={currentPage === Math.ceil(totalProductCount / itemsPerPage) || loading || isFetching}
+                                            className="h-8 px-4 rounded-xl border-2 border-charcoal/5 font-bold text-[10px] uppercase tracking-widest disabled:opacity-30 hover:text-charcoal"
+                                        >
+                                            Next
+                                        </Button>
+                                    </div>
+                                </div>
                             </Card>
                         </>
                     )}
@@ -640,7 +823,7 @@ export default function AdminPage() {
                                                     <p className="text-[10px] font-semibold text-gray-400 mt-0.5">{order.email}</p>
                                                 </TableCell>
                                                 <TableCell className="py-4">
-                                                    <p className="text-sm font-bold text-charcoal">${order.total.toFixed(2)}</p>
+                                                    <p className="text-sm font-bold text-charcoal">Rs {order.total.toLocaleString()}</p>
                                                 </TableCell>
                                                 <TableCell className="py-4">
                                                     <p className="text-[10px] font-semibold text-gray-400 uppercase tracking-widest">{new Date(order.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</p>
@@ -659,10 +842,10 @@ export default function AdminPage() {
                                                 </TableCell>
                                                 <TableCell className="pr-8 py-4 text-right">
                                                     <div className="flex items-center justify-end gap-2">
-                                                        <Button variant="outline" size="sm" onClick={() => { setSelectedOrder(order); setIsOrderDialogOpen(true); }} className="h-8 px-4 rounded-lg font-bold text-[10px] uppercase tracking-widest border-charcoal/10 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all">
+                                                        <Button variant="outline" size="sm" onClick={() => { setSelectedOrder(order); setIsOrderDialogOpen(true); }} className="h-8 px-4 rounded-lg font-bold text-[10px] uppercase tracking-widest border-charcoal/10 hover:bg-[#1a1a1a] hover:text-white hover:border-[#1a1a1a] transition-all hover:text-charcoal">
                                                             Details
                                                         </Button>
-                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteOrderClick(order)} className="h-8 w-8 p-0 rounded-lg border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all">
+                                                        <Button variant="outline" size="sm" onClick={() => handleDeleteOrderClick(order)} className="h-8 w-8 p-0 rounded-lg border-charcoal/10 hover:bg-red-600 hover:text-white hover:border-red-600 transition-all hover:text-charcoal">
                                                             <Trash2 size={14} />
                                                         </Button>
                                                     </div>
@@ -671,6 +854,46 @@ export default function AdminPage() {
                                         ))}
                                     </TableBody>
                                 </Table>
+
+                                {/* Order Pagination Controls */}
+                                <div className="p-6 border-t border-charcoal/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                                        Showing {Math.min((orderPage - 1) * orderItemsPerPage + 1, totalOrderCount)} - {Math.min(orderPage * orderItemsPerPage, totalOrderCount)} of {totalOrderCount} orders
+                                    </p>
+                                    <div className="flex items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setOrderPage(prev => Math.max(1, prev - 1))}
+                                            disabled={orderPage === 1 || loading}
+                                            className="h-8 px-4 rounded-xl border-2 border-charcoal/5 font-bold text-[10px] uppercase tracking-widest disabled:opacity-30 hover:text-charcoal"
+                                        >
+                                            Previous
+                                        </Button>
+                                        <div className="flex items-center gap-1">
+                                            {Array.from({ length: Math.ceil(totalOrderCount / orderItemsPerPage) }).map((_, i) => (
+                                                <Button
+                                                    key={i}
+                                                    variant="ghost"
+                                                    size="sm"
+                                                    onClick={() => setOrderPage(i + 1)}
+                                                    className={`h-8 w-8 p-0 rounded-xl font-bold text-[10px] hidden sm:flex ${orderPage === i + 1 ? 'bg-[#1a1a1a] text-white' : 'text-gray-400 hover:bg-gray-100 hover:text-charcoal'}`}
+                                                >
+                                                    {i + 1}
+                                                </Button>
+                                            )).slice(Math.max(0, orderPage - 3), Math.min(Math.ceil(totalOrderCount / orderItemsPerPage), orderPage + 2))}
+                                        </div>
+                                        <Button
+                                            variant="outline"
+                                            size="sm"
+                                            onClick={() => setOrderPage(prev => Math.min(Math.ceil(totalOrderCount / orderItemsPerPage), prev + 1))}
+                                            disabled={orderPage === Math.ceil(totalOrderCount / orderItemsPerPage) || loading}
+                                            className="h-8 px-4 rounded-xl border-2 border-charcoal/5 font-bold text-[10px] uppercase tracking-widest disabled:opacity-30 hover:text-charcoal"
+                                        >
+                                            Next
+                                        </Button>
+                                    </div>
+                                </div>
                             </Card>
                         </>
                     )}
@@ -734,13 +957,13 @@ export default function AdminPage() {
                             </div>
                             <div className="bg-gray-50 rounded-[1.5rem] sm:rounded-[2rem] p-5 sm:p-8 space-y-2 sm:space-y-3">
                                 <div className="flex justify-between text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                    <span>Subtotal</span><span>${selectedOrder.total.toFixed(2)}</span>
+                                    <span>Subtotal</span><span>Rs {selectedOrder.total.toLocaleString()}</span>
                                 </div>
                                 <div className="flex justify-between text-[8px] sm:text-[10px] font-black text-gray-400 uppercase tracking-widest border-b border-charcoal/5 pb-2 sm:pb-3">
                                     <span>Shipping</span><span>FREE</span>
                                 </div>
                                 <div className="flex justify-between text-lg sm:text-xl font-black text-charcoal uppercase tracking-tighter pt-1 sm:pt-2">
-                                    <span>Total</span><span>${selectedOrder.total.toFixed(2)}</span>
+                                    <span>Total</span><span>Rs {selectedOrder.total.toLocaleString()}</span>
                                 </div>
                             </div>
                         </div>
@@ -792,7 +1015,7 @@ export default function AdminPage() {
                     </div>
                 </AlertDialogContent>
             </AlertDialog>
-        </div>
+        </div >
     );
 }
 

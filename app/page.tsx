@@ -34,9 +34,6 @@ async function getSectionProducts(options: {
         price: true,
         image: true,
         category: true,
-        // originalPrice: true, // Add if these exist in DB
-        // badge: true,
-        // rating: true
       }
     }) as any[]
   } catch (error) {
@@ -51,26 +48,79 @@ export default async function Home() {
   const streetwearCategories = ['mens-shirts', 'womens-shirts', 'shirts', 'trousers-shorts', 'mens-tshirt', 'womens-tshirt']
   const bundleCategories = ['bundles-combo', 'bundle', 'bundles']
 
-  // Fetch all products once for all sections (Consolidated to fix connection pool timeout)
+  // Specific glove names requested by user
+  const gloveNames = [
+    'Cycling Glove',
+    'Driving Glove',
+    'Golf Glove',
+    'Mechanic',
+    'TPR Impact'
+  ]
+
+  // Specific accessory names requested by user
+  const accessoryNames = [
+    'Backpack',
+    'Bracelet',
+    'Hand Bag',
+    'Cap',
+    'Wallet'
+  ]
+
+  // Specific jacket names requested by user
+  const jacketNames = [
+    'Denim',
+    'Windbreaker',
+    'Bubble',
+    'Varsity',
+    'Softshell'
+  ]
+
+  const sectionSelect = {
+    id: true,
+    name: true,
+    price: true,
+    image: true,
+    category: true,
+  }
+
+  // Fetch all products once for all sections
   const allProducts = await prisma.product.findMany({
     take: 150, // Grab enough to cover all sections
     orderBy: { createdAt: 'desc' },
-    select: {
-      id: true,
-      name: true,
-      price: true,
-      image: true,
-      category: true,
-    }
+    select: sectionSelect
   })
 
-  // Filter products in memory
-  const newArrivals = allProducts.slice(0, 6)
-  const bestSellers = [...allProducts].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 6)
-  const streetwear = allProducts.filter(p => streetwearCategories.includes(p.category)).slice(0, 6)
-  const bundles = allProducts.filter(p => bundleCategories.includes(p.category)).slice(0, 6)
-  const accessories = allProducts.filter(p => p.category === 'caps-hats').slice(0, 6)
+  // Sequentially fetch Gloves to avoid Connection Pool Timeout
+  const selectedGloves: any[] = []
+  for (const name of gloveNames) {
+    const p = await prisma.product.findFirst({ where: { name: { contains: name, mode: 'insensitive' } }, select: sectionSelect })
+    if (p) selectedGloves.push(p)
+  }
+  const extraGlove = await prisma.product.findFirst({ where: { name: { contains: 'Cycling Glove', mode: 'insensitive' } }, skip: 1, select: sectionSelect })
+  if (extraGlove) selectedGloves.push(extraGlove)
 
+  // Sequentially fetch Accessories
+  const selectedAccessories: any[] = []
+  for (const name of accessoryNames) {
+    const p = await prisma.product.findFirst({ where: { name: { contains: name, mode: 'insensitive' } }, select: sectionSelect })
+    if (p) selectedAccessories.push(p)
+  }
+  const extraAcc = await prisma.product.findFirst({ where: { name: { contains: 'Cap', mode: 'insensitive' } }, skip: 1, select: sectionSelect })
+  if (extraAcc) selectedAccessories.push(extraAcc)
+
+  // Sequentially fetch Jackets
+  const selectedJackets: any[] = []
+  for (const name of jacketNames) {
+    const p = await prisma.product.findFirst({ where: { name: { contains: name, mode: 'insensitive' } }, select: sectionSelect })
+    if (p) selectedJackets.push(p)
+  }
+  const extraJac = await prisma.product.findFirst({ where: { name: { contains: 'Denim', mode: 'insensitive' } }, skip: 1, select: sectionSelect })
+  if (extraJac) selectedJackets.push(extraJac)
+
+  // Filter products in memory
+  const newArrivals = [...allProducts].sort(() => 0.5 - Math.random()).slice(0, 6)
+  const bestSellers = [...allProducts].sort((a, b) => a.name.localeCompare(b.name)).slice(0, 6)
+  // const bundles = allProducts.filter(p => bundleCategories.includes(p.category)).slice(0, 6)
 
   return (
     <div className="min-h-screen">
@@ -82,7 +132,7 @@ export default async function Home() {
         <HeroBanner />
         <CategoryGrid />
 
-        {/* NEW ARRIVALS — 4 products, 1 row */}
+        {/* NEW ARRIVALS — 5 mixed products */}
         <section>
           <ProductGrid title="New Arrivals" items={newArrivals} />
         </section>
@@ -93,19 +143,19 @@ export default async function Home() {
           <FeaturedBanner />
         </section>
 
-        {/* TEXTILE JACKETS — 8 products (shirts + trousers), 2 rows */}
-        <ShirtsCollection products={streetwear} />
+        {/* TEXTILE JACKETS — 5 products on desktop, 6 on mobile, 2 rows */}
+        <ShirtsCollection products={selectedJackets} />
 
         {/* BEST SELLERS — 8 products all mixed, 2 rows */}
         <section>
           <ProductGrid title="Best Sellers" items={bestSellers} />
         </section>
 
-        {/* SPORTSWEAR — 4 products, 1 row */}
-        <BundlesCombo products={bundles} />
+        {/* GLOVES COLLECTION (Using Bundles Combo layout) */}
+        <BundlesCombo products={selectedGloves} />
 
-        {/* ACCESSORIES COLLECTION — 4 cap products, 1 row */}
-        <AccessoriesCollection products={accessories} />
+        {/* ACCESSORIES COLLECTION — 5 mixed accessory products, 1 row */}
+        <AccessoriesCollection products={selectedAccessories} />
 
         <TestimonialsSection />
         <FAQSection />

@@ -68,9 +68,9 @@ export async function sendOrderEmails(orderData: OrderData) {
 <td style="padding-left:12px;" valign="top">
 <div style="font-size:14px;font-weight:700;color:#111;">${item.name}</div>
 <div style="font-size:12px;color:#666;">Size: ${item.selectedSize || '-'} | Color: ${item.selectedColor || '-'}</div>
-<div style="font-size:12px;color:#666;">Qty: ${quantity} x $${price.toFixed(2)}</div>
+<div style="font-size:12px;color:#666;">Qty: ${quantity} x Rs {price.toFixed(2)}</div>
 </td>
-<td align="right" valign="top" style="font-size:14px;font-weight:700;color:#111;">$${itemTotal.toFixed(2)}</td>
+<td align="right" valign="top" style="font-size:14px;font-weight:700;color:#111;">Rs {itemTotal.toFixed(2)}</td>
 </tr>
 </table>
 </td>
@@ -107,9 +107,9 @@ body{font-family:Helvetica,Arial,sans-serif;margin:0;padding:20px;background-col
 </div>
 <div class="total-box">
 <table width="100%" style="font-size:14px">
-<tr><td style="color:#888">Subtotal</td><td align="right">$${subtotal.toFixed(2)}</td></tr>
-<tr><td style="color:#888;padding-top:5px">Shipping</td><td align="right" style="padding-top:5px">$${shippingCost.toFixed(2)}</td></tr>
-<tr><td colspan="2" style="border-top:1px solid #333;margin:15px 0;padding-top:15px;font-size:18px;font-weight:800">Total Payment <span style="float:right">$${parseFloat(total.toString()).toFixed(2)}</span></td></tr>
+<tr><td style="color:#888">Subtotal</td><td align="right">Rs {subtotal.toFixed(2)}</td></tr>
+<tr><td style="color:#888;padding-top:5px">Shipping</td><td align="right" style="padding-top:5px">Rs {shippingCost.toFixed(2)}</td></tr>
+<tr><td colspan="2" style="border-top:1px solid #333;margin:15px 0;padding-top:15px;font-size:18px;font-weight:800">Total Payment <span style="float:right">Rs {parseFloat(total.toString()).toFixed(2)}</span></td></tr>
 </table>
 </div>
 <div style="padding:30px;text-align:center;font-size:12px;color:#666;background:#fafafa">

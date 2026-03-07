@@ -15,10 +15,10 @@ export function AccessoriesCollection({ products }: AccessoriesCollectionProps) 
   return (
     <section className="w-full py-16 sm:py-24 px-4 sm:px-6 lg:px-12 bg-gray-50/50">
       <div className="max-w-7xl mx-auto">
-        <SectionHeading title="Accessories Collection" subtitle="Complete your look with our premium caps & accessories" />
+        <SectionHeading title="Accessories Collection" subtitle="Complete your look with our premium bags, caps, and everyday essentials" />
 
         {/* 5-col grid on desktop, 6 items limit */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6 lg:gap-8 mt-8">
           {products.slice(0, 6).map((product, index) => (
             <motion.div
               key={product.id}
@@ -42,9 +42,9 @@ export function AccessoriesCollection({ products }: AccessoriesCollectionProps) 
         </div>
 
         {/* View All Link */}
-        <div className="flex justify-center mt-16">
+        <div className="flex justify-center mt-12 sm:mt-16">
           <Link
-            href="/products?category=caps-hats"
+            href="/products?category=Mens+%26+Women&subCategory=Accessories"
             className="group flex items-center gap-3 bg-secondary hover:bg-primary hover:text-white px-8 py-3 rounded-full font-extrabold uppercase tracking-widest transition-all duration-500 shadow-sm hover:shadow-primary/20"
           >
             <span className="text-xs">View Full Collection</span>

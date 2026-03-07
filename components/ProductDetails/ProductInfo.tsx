@@ -51,10 +51,8 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
                 <div className="flex items-center gap-4">
                     <div className="flex items-baseline gap-2">
-                        {product.originalPrice && (
-                            <span className="text-base text-gray-400 line-through">${product.originalPrice.toFixed(2)}</span>
-                        )}
-                        <span className="text-2xl font-bold text-[#1A1A1A]">${product.price.toFixed(2)}</span>
+                        {product.originalPrice != null && <span className="text-base text-gray-400 line-through">Rs {product.originalPrice.toFixed(2)}</span>}
+                        <span className="text-2xl font-bold text-[#1A1A1A]">Rs {(product.price ?? 0).toFixed(2)}</span>
                     </div>
                     <div className="h-4 w-px bg-gray-200" />
                     <div className="flex items-center gap-1.5">

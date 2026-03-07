@@ -21,10 +21,10 @@ export function CategoryCard({
   return (
     <Link href={link}>
       <motion.div
-        className="flex flex-col gap-1.5 group cursor-pointer max-w-[220px] mx-auto w-full md:hover:-translate-y-2 transition-transform duration-300"
+        className="flex flex-col gap-1.5 group cursor-pointer max-w-[120px] sm:max-w-[220px] mx-auto w-full md:hover:-translate-y-2 transition-transform duration-300"
       >
         {/* Rounded Image Container */}
-        <div className="relative aspect-square w-full rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-100 shadow-none transition-all duration-500 md:group-hover:border-primary/20">
+        <div className="relative aspect-square w-full rounded-xl sm:rounded-3xl overflow-hidden border border-gray-100 shadow-none transition-all duration-500 md:group-hover:border-primary/20">
           <Image
             src={image || "/placeholder.svg"}
             alt={name}
@@ -42,7 +42,7 @@ export function CategoryCard({
 
         {/* Category Name */}
         <div className="flex flex-col items-center">
-          <h3 className="text-center font-bold text-[10px] sm:text-lg lg:text-xl text-charcoal md:group-hover:text-primary transition-colors duration-300 uppercase tracking-tighter leading-tight">
+          <h3 className="text-center font-bold text-[9px] sm:text-lg lg:text-xl text-charcoal md:group-hover:text-primary transition-colors duration-300 uppercase tracking-tighter leading-tight">
             {name}
           </h3>
           <div className="w-0 md:group-hover:w-full h-0.5 bg-primary transition-all duration-500 mt-1" />

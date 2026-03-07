@@ -71,7 +71,21 @@ export async function GET(req: Request) {
 
     const total = await prisma.product.count({ where: where });
 
-    return NextResponse.json({ products, total, skip, limit });
+    // Fetch global category counts for admin dashboard
+    const categoryStats = await prisma.product.groupBy({
+      by: ['category'],
+      _count: {
+        id: true,
+      },
+    });
+
+    return NextResponse.json({ 
+      products, 
+      total, 
+      categoryCounts: categoryStats.map((c: any) => ({ name: c.category, count: c._count.id })),
+      skip, 
+      limit 
+    });
   } catch (error) {
     console.error("GET Products Error:", error);
     return NextResponse.json({ error: "Failed to fetch products" }, { status: 500 });
